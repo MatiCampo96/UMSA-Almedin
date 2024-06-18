@@ -1,6 +1,7 @@
 import React from 'react';
 import { CssBaseline, Container } from '@mui/material';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
         <h1>Trabajo Practico Grupo 10</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       </Container>
+      <Footer />
     </>
   );
 };
