@@ -1,11 +1,18 @@
-import "./App.css";
+import React from 'react';
+import { CssBaseline, Container } from '@mui/material';
+import Navbar from './components/Navbar';
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
-      <h1>Trabajo Integrador Grupo 10 - Frontend</h1>
+      <CssBaseline />
+      <Navbar />
+      <Container component="main" sx={{ mt: 8, mb: 2 }}>
+        <h1>Trabajo Practico Grupo 10</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </Container>
     </>
   );
-}
+};
 
 export default App;
