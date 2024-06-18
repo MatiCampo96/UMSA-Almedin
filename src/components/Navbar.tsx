@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Container, Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -18,11 +19,13 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className='mb-10'>
       <Container maxWidth="lg">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            AlMedin
+            <Button component={RouterLink} to="/dashboard" color="inherit">
+              AlMedin
+            </Button>
           </Typography>
           {isMobile ? (
             <>
@@ -51,12 +54,20 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={handleMenuClose}>Inicio</MenuItem>
+                <MenuItem component={RouterLink} to="/create-appointment" onClick={handleMenuClose}>Crear Turno</MenuItem>
+                <MenuItem component={RouterLink} to="/specialists" onClick={handleMenuClose}>Especialistas</MenuItem>
+                <MenuItem component={RouterLink} to="/update-appointment" onClick={handleMenuClose}>Actualizar Turno</MenuItem>
+                <MenuItem component={RouterLink} to="/cancel-appointment" onClick={handleMenuClose}>Cancelar Turno</MenuItem>
+                <MenuItem component={RouterLink} to="/download-prescription" onClick={handleMenuClose}>Descargar Receta</MenuItem>
               </Menu>
             </>
           ) : (
             <Box sx={{ display: 'flex' }}>
-              <Button color="inherit">Inicio</Button>
+              <Button color="inherit" component={RouterLink} to="/create-appointment">Crear Turno</Button>
+              <Button color="inherit" component={RouterLink} to="/specialists">Especialistas</Button>
+              <Button color="inherit" component={RouterLink} to="/update-appointment">Actualizar Turno</Button>
+              <Button color="inherit" component={RouterLink} to="/cancel-appointment">Cancelar Turno</Button>
+              <Button color="inherit" component={RouterLink} to="/download-prescription">Descargar Receta</Button>
             </Box>
           )}
         </Toolbar>

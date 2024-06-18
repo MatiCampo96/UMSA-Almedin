@@ -1,18 +1,35 @@
 import React from 'react';
-import { CssBaseline, Container } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import CreateAppointment from './pages/CreateAppointment';
+import SpecialistList from './pages/SpecialistList';
+import UpdateAppointment from './pages/UpdateAppointment';
+import CancelAppointment from './pages/CancelAppointment';
+import DownloadPrescription from './pages/DownloadPrescription';
 
 const App: React.FC = () => {
   return (
     <>
       <CssBaseline />
-      <Navbar />
-      <Container component="main" sx={{ mt: 8, mb: 2 }}>
-        <h1>AlMedin</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </Container>
-      <Footer />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create-appointment" element={<CreateAppointment />} />
+          <Route path="/specialists" element={<SpecialistList />} />
+          <Route path="/update-appointment" element={<UpdateAppointment />} />
+          <Route path="/cancel-appointment" element={<CancelAppointment />} />
+          <Route path="/download-prescription" element={<DownloadPrescription />} />
+        </Routes>
+        <Footer />
+      </Router>
     </>
   );
 };

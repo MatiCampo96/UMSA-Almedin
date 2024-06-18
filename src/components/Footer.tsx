@@ -3,7 +3,7 @@ import { Container, Typography, Box, Link } from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
-    <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: 'primary.main', color: 'white' }}>
+    <Box component="footer" sx={{ py: 3, px: 2, mt: '40px', backgroundColor: 'primary.main', color: 'white' }}>
       <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', md: 'row' } }}>
         <Typography variant="body1">
           Hecho con ♥ por el grupo 10 de Trabajo Integrador.
