@@ -1,19 +1,27 @@
 import React from 'react';
-import './Footer.css';  // Importa los estilos CSS para el Footer
+import { Container, Typography, Box, Link } from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <p>&copy; 2024 My Company</p>
-        <nav className="footer-nav">
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/privacy">Privacy Policy</a>
-        </nav>
-      </div>
-    </footer>
+    <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: 'primary.main', color: 'white' }}>
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', md: 'row' } }}>
+        <Typography variant="body1">
+          Hecho con ♥ por el grupo 10 de Trabajo Integrador.
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-end' }, mt: { xs: 2, md: 0 } }}>
+          <Link href="#" color="inherit" sx={{ mx: 1 }}>
+            Politicas de Privacidad
+          </Link>
+          <Link href="#" color="inherit" sx={{ mx: 1 }}>
+            Terminos y Condiciones
+          </Link>
+          <Link href="#" color="inherit" sx={{ mx: 1 }}>
+            Contacto
+          </Link>
+        </Box>
+      </Container>
+    </Box>
   );
-}
+};
 
 export default Footer;

@@ -9,7 +9,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <Navbar />
       <Container component="main" sx={{ mt: 8, mb: 2 }}>
-        <h1>Trabajo Practico Grupo 10</h1>
+        <h1>AlMedin</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       </Container>
       <Footer />
