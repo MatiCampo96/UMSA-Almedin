@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { Specialist } from '../types/types';
 
+const api = axios.create({
+  baseURL: 'http://localhost:8080',
+});
+
 export const fetchSpecialists = async (): Promise<Specialist[]> => {
-  const response = await fetch('http://localhost:8080/especialistas');
-  if (!response.ok) {
-    throw new Error('Respuesta no válida');
-  }
-  const data = await response.json();
-  return data;
+  const response = await api.get('/especialistas');
+  return response.data;
 };
