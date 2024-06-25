@@ -7,6 +7,7 @@ const ListSpecialists: React.FC = () => {
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [error, setError] = useState<string | null>(null);    //Puede usarse un Loading en lugar de error, error no esta implementado...
 
+  // Pasar a Api.ts
   useEffect(() => {
     console.log('Fetching doctors...');
     fetch('http://localhost:8080/especialistas')
@@ -37,7 +38,7 @@ const ListSpecialists: React.FC = () => {
             <SpecialistCard
               firstName={specialist.firstName}
               lastName={specialist.lastName}
-              specialty={specialist.speciality}
+              speciality={specialist.speciality}
               location={specialist.branch.city}
               schedule={specialist.schedules}
             />

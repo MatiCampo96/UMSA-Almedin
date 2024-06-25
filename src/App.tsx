@@ -18,6 +18,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <Router>
         <Navbar />
+        // Pasar a routes.tsx
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

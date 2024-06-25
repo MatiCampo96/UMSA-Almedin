@@ -7,12 +7,13 @@ import { formatSchedule, sortSchedulesByDay } from '../utils/schedule';
 interface SpecialistCardProps {
   firstName: string;
   lastName: string;
-  specialty: string;
+  speciality: string;
   location: string;
   schedule: Schedule[];
 }
 
-const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, specialty, location, schedule }) => {
+const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, speciality, location, schedule }) => {
+  // Checkear copy
   const formattedSchedules = schedule.map(formatSchedule);
   const sortedSchedules = sortSchedulesByDay(formattedSchedules);
 
@@ -23,7 +24,7 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, sp
     <Card sx={{ maxWidth: 345, mb: 2 }}>
       <CardContent>
         <Typography variant="h6">{firstName + " " + lastName}</Typography>
-        <Typography color="text.secondary">{formatSpecialty(specialty)}</Typography>
+        <Typography color="text.secondary">{formatSpecialty(speciality)}</Typography>
         <Typography color="text.secondary">{location}</Typography>
         <Typography color="text.secondary">
           {sortedSchedules.map(formattedSchedule => (
