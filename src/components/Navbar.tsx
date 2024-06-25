@@ -99,6 +99,20 @@ const Navbar: React.FC = () => {
                 >
                   Descargar Receta
                 </MenuItem>
+                <MenuItem
+                  component={RouterLink}
+                  to="/register"
+                  onClick={handleMenuClose}
+                >
+                  Registrarme
+                </MenuItem>
+                <MenuItem
+                  component={RouterLink}
+                  to="/"
+                  onClick={handleMenuClose}
+                >
+                  Iniciar Sesion
+                </MenuItem>
               </Menu>
             </>
           ) : (
@@ -133,6 +147,12 @@ const Navbar: React.FC = () => {
                 to="/recetas/descargar"
               >
                 Descargar Receta
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/register">
+                Registrarme
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/">
+                Iniciar Sesion
               </Button>
             </Box>
           )}

@@ -7,7 +7,7 @@ const Register: React.FC = () => {
     <Container maxWidth="sm">
       <Box sx={{ mt: 8 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Register
+          Registrarme
         </Typography>
         <form noValidate>
           <TextField
