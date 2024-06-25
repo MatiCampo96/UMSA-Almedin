@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { Schedule } from '../types';
+import { Schedule } from '../types/types';
 import { formatSchedule, sortSchedulesByDay } from '../utils/schedule';
 
 

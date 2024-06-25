@@ -1,31 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Grid, CircularProgress, Box } from '@mui/material';
 import SpecialistCard from '../components/SpecialistCard';
-import { Specialist } from '../types';
+import { fetchSpecialists } from '../api/api';
+import { Specialist } from '../types/types';
 
 const ListSpecialists: React.FC = () => {
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
-  const [error, setError] = useState<string | null>(null);    //Puede usarse un Loading en lugar de error, error no esta implementado...
+  const [loading, setLoading] = useState(true);
 
-  // Pasar a Api.ts
   useEffect(() => {
-    console.log('Fetching doctors...');
-    fetch('http://localhost:8080/especialistas')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Data received:', data);  //Opcional, util durante depuración
+    const getSpecialists = async () => {
+      try {
+        const data = await fetchSpecialists();
         setSpecialists(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error); //Opcional, util durante depuración
-        setError(error.message);
-      });
+      } catch (error) {
+        console.error('Error encontrando especialistas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getSpecialists();
   }, []);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Container maxWidth="lg">
@@ -33,8 +37,8 @@ const ListSpecialists: React.FC = () => {
         Cartilla de Especialistas
       </Typography>
       <Grid container spacing={4}>
-        {specialists.map((specialist) => (
-          <Grid item key={specialist.id} xs={12} sm={6} md={4}>
+        {specialists.map((specialist, index) => (
+          <Grid item key={index} xs={12} sm={6} md={4}>
             <SpecialistCard
               firstName={specialist.firstName}
               lastName={specialist.lastName}

@@ -1,4 +1,4 @@
-import { Schedule } from '../types';
+import { Schedule } from '../types/types';
 
 const customDayOrder = ['LU', 'MA', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
 
