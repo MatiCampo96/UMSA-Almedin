@@ -14,11 +14,13 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { useAuth } from '../context/AuthContext';
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { isAuthenticated, logout } = useAuth();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,6 +28,11 @@ const Navbar: React.FC = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
   };
 
   return (
@@ -99,20 +106,27 @@ const Navbar: React.FC = () => {
                 >
                   Descargar Receta
                 </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/register"
-                  onClick={handleMenuClose}
-                >
-                  Registrarme
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/"
-                  onClick={handleMenuClose}
-                >
-                  Iniciar Sesion
-                </MenuItem>
+                {isAuthenticated ? (
+                  <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+                ) : (
+                  <>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/register"
+                      onClick={handleMenuClose}
+                    >
+                      Registrarme
+                    </MenuItem>
+                    <MenuItem
+                      component={RouterLink}
+                      to="/"
+                      onClick={handleMenuClose}
+                    >
+                      Iniciar Sesión
+                    </MenuItem>
+                  </>
+                )}
+
               </Menu>
             </>
           ) : (
@@ -148,12 +162,20 @@ const Navbar: React.FC = () => {
               >
                 Descargar Receta
               </Button>
-              <Button color="inherit" component={RouterLink} to="/register">
-                Registrarme
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/">
-                Iniciar Sesion
-              </Button>
+              {isAuthenticated ? (
+                <Button color="inherit" onClick={handleLogout}>
+                  Cerrar Sesión
+                </Button>
+              ) : (
+                <>
+                  <Button color="inherit" component={RouterLink} to="/register">
+                    Registrarme
+                  </Button>
+                  <Button color="inherit" component={RouterLink} to="/">
+                    Iniciar Sesión
+                  </Button>
+                </>
+              )}
             </Box>
           )}
         </Toolbar>

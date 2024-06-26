@@ -10,21 +10,19 @@ export const fetchSpecialists = async (): Promise<Specialist[]> => {
   return response.data;
 };
 
-// Función para iniciar sesión
+//Recomendado Login mediante POST en lugar de parametros en url
 export const login = async (email: string, password: string): Promise<string> => {
   try {
     const response = await api.get('/auth/login', {
       params: { email, password },
     });
-    return response.data; // Suponiendo que el token es devuelto como la data de la respuesta
+    return response.data;
   } catch (error) {
     handleAxiosError(error);
-    throw error; // Lanzar el error después de manejarlo
+    throw error;
   }
 };
 
-
-// Función para manejar errores de Axios
 const handleAxiosError = (error: any) => {
   if (axios.isAxiosError(error) && error.response) {
     throw new Error(error.response.data);

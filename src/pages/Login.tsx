@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { login } from '../api/api';
-import { useNavigate } from 'react-router-dom';
+import { login as loginApi } from '../api/api';
+import { useAuth } from '../context/AuthContext';
 import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
 
 const Login: React.FC = () => {
@@ -9,8 +9,8 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-
+  const { login } = useAuth();
+  
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -23,9 +23,8 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const token = await login(email, password);
-      localStorage.setItem('token', token);  // Almacenar el token
-      navigate('/dashboard');  // Redirigir al usuario
+      const token = await loginApi(email, password);
+      login(token);  // Almacenar el token
     } catch (error: any) {
       setError(error.message);
     }
