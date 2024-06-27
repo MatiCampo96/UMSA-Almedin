@@ -4,7 +4,7 @@ import SpecialistCard from '../components/SpecialistCard';
 import { fetchSpecialists } from '../api/api';
 import { Specialist } from '../types/types';
 
-const ListSpecialists: React.FC = () => {
+const SpecialistList: React.FC = () => {
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,4 +53,4 @@ const ListSpecialists: React.FC = () => {
   );
 };
 
-export default ListSpecialists;
+export default SpecialistList;

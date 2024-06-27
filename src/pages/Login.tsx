@@ -25,6 +25,7 @@ const Login: React.FC = () => {
     try {
       const token = await loginApi(email, password);
       login(token);  // Almacenar el token
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError(error.message);
     }
@@ -36,7 +37,7 @@ const Login: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Iniciar Sesion
         </Typography>
-        <form noValidate onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         {error && <Alert severity="error">{error}</Alert>}
           <TextField
             margin="normal"

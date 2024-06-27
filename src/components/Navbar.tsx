@@ -14,7 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -69,11 +69,11 @@ const Navbar: React.FC = () => {
                 {[
                   <MenuItem
                     component={RouterLink}
-                    to="/turnos/crear"
+                    to="/turnos"
                     onClick={handleMenuClose}
-                    key="crear-turno"
+                    key="turnos"
                   >
-                    Crear Turno
+                    Turnos
                   </MenuItem>,
                   <MenuItem
                     component={RouterLink}
@@ -82,6 +82,14 @@ const Navbar: React.FC = () => {
                     key="especialistas"
                   >
                     Especialistas
+                  </MenuItem>,
+                  <MenuItem
+                    component={RouterLink}
+                    to="/turnos/crear"
+                    onClick={handleMenuClose}
+                    key="crear-turno"
+                  >
+                    Crear Turno
                   </MenuItem>,
                   <MenuItem
                     component={RouterLink}
@@ -137,14 +145,14 @@ const Navbar: React.FC = () => {
                     >
                       Cerrar Sesión
                     </MenuItem>
-                  )
+                  ),
                 ]}
               </Menu>
             </>
           ) : (
             <Box sx={{ display: "flex" }}>
-              <Button color="inherit" component={RouterLink} to="/turnos/crear">
-                Crear Turno
+              <Button color="inherit" component={RouterLink} to="/turnos">
+                Turnos
               </Button>
               <Button
                 color="inherit"
@@ -152,6 +160,9 @@ const Navbar: React.FC = () => {
                 to="/especialistas"
               >
                 Especialistas
+              </Button>
+              <Button color="inherit" component={RouterLink} to="/turnos/crear">
+                Crear Turno
               </Button>
               <Button
                 color="inherit"
