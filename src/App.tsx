@@ -11,12 +11,14 @@ import SpecialistList from "./pages/SpecialistList";
 import UpdateAppointment from "./pages/UpdateAppointment";
 import CancelAppointment from "./pages/CancelAppointment";
 import DownloadPrescription from "./pages/DownloadPrescription";
+import { AuthProvider } from './context/AuthContext';
 
 const App: React.FC = () => {
   return (
     <>
       <CssBaseline />
       <Router>
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Login />} />
@@ -29,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/recetas/descargar" element={<DownloadPrescription />} />
         </Routes>
         <Footer />
+      </AuthProvider>
       </Router>
     </>
   );

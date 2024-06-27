@@ -14,11 +14,13 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { useAuth } from '../context/AuthContext';
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { isAuthenticated, logout } = useAuth();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -64,55 +66,79 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                <MenuItem
-                  component={RouterLink}
-                  to="/turnos/crear"
-                  onClick={handleMenuClose}
-                >
-                  Crear Turno
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/especialistas"
-                  onClick={handleMenuClose}
-                >
-                  Especialistas
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/turnos/actualizar"
-                  onClick={handleMenuClose}
-                >
-                  Actualizar Turno
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/turnos/cancelar"
-                  onClick={handleMenuClose}
-                >
-                  Cancelar Turno
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/recetas/descargar"
-                  onClick={handleMenuClose}
-                >
-                  Descargar Receta
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/register"
-                  onClick={handleMenuClose}
-                >
-                  Registrarme
-                </MenuItem>
-                <MenuItem
-                  component={RouterLink}
-                  to="/"
-                  onClick={handleMenuClose}
-                >
-                  Iniciar Sesion
-                </MenuItem>
+                {[
+                  <MenuItem
+                    component={RouterLink}
+                    to="/turnos/crear"
+                    onClick={handleMenuClose}
+                    key="crear-turno"
+                  >
+                    Crear Turno
+                  </MenuItem>,
+                  <MenuItem
+                    component={RouterLink}
+                    to="/especialistas"
+                    onClick={handleMenuClose}
+                    key="especialistas"
+                  >
+                    Especialistas
+                  </MenuItem>,
+                  <MenuItem
+                    component={RouterLink}
+                    to="/turnos/actualizar"
+                    onClick={handleMenuClose}
+                    key="actualizar-turno"
+                  >
+                    Actualizar Turno
+                  </MenuItem>,
+                  <MenuItem
+                    component={RouterLink}
+                    to="/turnos/cancelar"
+                    onClick={handleMenuClose}
+                    key="cancelar-turno"
+                  >
+                    Cancelar Turno
+                  </MenuItem>,
+                  <MenuItem
+                    component={RouterLink}
+                    to="/recetas/descargar"
+                    onClick={handleMenuClose}
+                    key="descargar-receta"
+                  >
+                    Descargar Receta
+                  </MenuItem>,
+                  !isAuthenticated && (
+                    <MenuItem
+                      component={RouterLink}
+                      to="/register"
+                      onClick={handleMenuClose}
+                      key="register"
+                    >
+                      Registrarme
+                    </MenuItem>
+                  ),
+                  !isAuthenticated && (
+                    <MenuItem
+                      component={RouterLink}
+                      to="/"
+                      onClick={handleMenuClose}
+                      key="login"
+                    >
+                      Iniciar Sesión
+                    </MenuItem>
+                  ),
+                  isAuthenticated && (
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        logout();
+                      }}
+                      key="logout"
+                    >
+                      Cerrar Sesión
+                    </MenuItem>
+                  )
+                ]}
               </Menu>
             </>
           ) : (
@@ -148,12 +174,21 @@ const Navbar: React.FC = () => {
               >
                 Descargar Receta
               </Button>
-              <Button color="inherit" component={RouterLink} to="/register">
-                Registrarme
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/">
-                Iniciar Sesion
-              </Button>
+              {!isAuthenticated && (
+                <>
+                  <Button color="inherit" component={RouterLink} to="/register">
+                    Registrarme
+                  </Button>
+                  <Button color="inherit" component={RouterLink} to="/">
+                    Iniciar Sesión
+                  </Button>
+                </>
+              )}
+              {isAuthenticated && (
+                <Button color="inherit" onClick={logout}>
+                  Cerrar Sesión
+                </Button>
+              )}
             </Box>
           )}
         </Toolbar>
