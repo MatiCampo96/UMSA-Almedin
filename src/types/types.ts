@@ -45,7 +45,7 @@ export interface Schedule {
     id: number;
     dateHour: Date;
     patient: Patient;
-    specialist: Specialist;
+    doctor: Specialist;
     recipes: Recipe[];
     queryReason: string;
   }

@@ -2,7 +2,10 @@ import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import { Appointment } from '../types/types';
 
-const AppointmentCard: React.FC<Appointment> = ({ patient, dateHour, specialist, recipes = [], queryReason }) => {
+const AppointmentCard: React.FC<Appointment> = ({ patient, dateHour, doctor, recipes = [], queryReason }) => {
+  const formatSpeciality = (speciality: string): string => {
+    return speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+  };
   return (
     <Card sx={{ maxWidth: 345, mb: 2 }}>
       <CardContent>
@@ -13,7 +16,7 @@ const AppointmentCard: React.FC<Appointment> = ({ patient, dateHour, specialist,
           {new Date(dateHour).toLocaleString()}
         </Typography>
         <Typography color="text.secondary">
-          {specialist ? `${specialist.firstName} ${specialist.lastName} - ${specialist.speciality}` : 'No specialist info'}
+          {doctor ? `${doctor.firstName} ${doctor.lastName} - ${formatSpeciality(doctor.speciality)}` : 'No specialist info'}
         </Typography>
         <Typography color="text.secondary">{queryReason}</Typography>
         {recipes.length > 0 && (

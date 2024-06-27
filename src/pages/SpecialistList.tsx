@@ -39,12 +39,12 @@ const SpecialistList: React.FC = () => {
       <Grid container spacing={4}>
         {specialists.map((specialist, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>
-            <SpecialistCard
+            <SpecialistCard   //TODO! Warning pidiendo que incluyamos datos que estamos ignorando
               firstName={specialist.firstName}
               lastName={specialist.lastName}
               speciality={specialist.speciality}
-              location={specialist.branch.city}
-              schedule={specialist.schedules}
+              branch={specialist.branch}
+              schedules={specialist.schedules}
             />
           </Grid>
         ))}
