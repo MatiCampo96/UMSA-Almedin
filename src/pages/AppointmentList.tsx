@@ -3,6 +3,12 @@ import { Container, Typography, Grid, CircularProgress, Box } from '@mui/materia
 import AppointmentCard from '../components/AppointmentCard';
 import { fetchAppointments } from '../api/api';
 import { Appointment } from '../types/types';
+import axios from 'axios';
+import { fetchAvailableSlots } from '../api/api';
+
+(window as any).axios = axios;
+(window as any).fetchAvailableSlots = fetchAvailableSlots;
+
 
 const AppointmentList: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);

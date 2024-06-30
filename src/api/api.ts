@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist } from "../types/types";
+import { Appointment, Specialist, SlotData } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -8,6 +8,7 @@ const api = axios.create({
 export const fetchSpecialists = async (): Promise<Specialist[]> => {
   try {
     const response = await api.get("/especialistas");
+    console.log("aya", response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -16,6 +17,19 @@ export const fetchSpecialists = async (): Promise<Specialist[]> => {
     throw new Error('Error de red');
   }
 };
+
+export const fetchSpecialistsBySpeciality = async (speciality: string): Promise<Specialist[]> => {
+  try {
+    const response = await api.get(`/especialistas/especialidad/${speciality}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar los especialistas');
+    }
+    throw new Error('Error de red');
+  }
+};
+
 
 export const fetchAppointments = async (): Promise<Appointment[]> => {
   try {
@@ -58,5 +72,31 @@ export const login = async (email: string, password: string): Promise<string> =>
       throw new Error(error.response.data.message || 'Error al iniciar sesión');
     }
     throw new Error('Error de red');
+  }
+};
+
+
+export const fetchSpecialties = async (): Promise<string[]> => {
+  try {
+    const response = await api.get("/especialidades");
+    console.log(response.data)
+    return response.data.map((item: string) => item.toString());
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar los turnos');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+// Función para obtener los slots disponibles
+export const fetchAvailableSlots = async (doctorId: number): Promise<any> => {
+  try {
+    const response = await axios.get(`/turnos/available-slots/${doctorId}`);
+    console.log('Response data:', response.data); // Mostrar en la consola lo que sea que haya capturado
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener los slots disponibles desde api.ts:', error); // Mostrar el error en la consola
+    throw error; // Lanzar el error para manejarlo en el componente que llama a esta función
   }
 };

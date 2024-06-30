@@ -49,3 +49,12 @@ export interface Schedule {
     recipes: Recipe[];
     queryReason: string;
   }
+
+  export interface Specialties {
+    specialties: string[];
+  }
+  
+  export interface SlotData {
+    date: string;
+    slots: string[];
+  }

@@ -1,9 +1,14 @@
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea } from '@mui/material';
 import { Specialist } from '../types/types';
 import { formatSchedule, sortSchedulesByDay } from '../utils/schedule';
 
-const SpecialistCard: React.FC<Specialist> = ({ firstName, lastName, speciality, branch, schedules }) => {
+interface SpecialistCardProps extends Specialist {
+  onClick: () => void; // Función para manejar el click en la tarjeta
+}
+
+
+const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, speciality, branch, schedules, onClick }) => {
   const formattedSchedules = schedules ? schedules.map(formatSchedule) : [];
   const sortedSchedules = sortSchedulesByDay(formattedSchedules);
 
@@ -13,6 +18,7 @@ const SpecialistCard: React.FC<Specialist> = ({ firstName, lastName, speciality,
 
   return (
     <Card sx={{ maxWidth: 345, mb: 2 }}>
+      <CardActionArea onClick={onClick}>
       <CardContent>
         <Typography variant="h6">{`${firstName} ${lastName}`}</Typography>
         <Typography color="text.secondary">{formatSpeciality(speciality)}</Typography>
@@ -28,6 +34,7 @@ const SpecialistCard: React.FC<Specialist> = ({ firstName, lastName, speciality,
           ))}
         </Typography>
       </CardContent>
+      </CardActionArea>
     </Card>
   );
 };
