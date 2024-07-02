@@ -3,43 +3,44 @@ import { fetchAvailableSlots } from '../api/api';
 import { SlotData } from '../types/types';
 
 const CalendarComponent: React.FC<{ doctorId: number }> = ({ doctorId }) => {
-    const [slots, setSlots] = useState<string[]>([]);
-  
-    useEffect(() => {
-      const fetchSlots = async () => {
-        try {
-          const slotData = await fetchAvailableSlots(doctorId);
-          console.log(doctorId)
-          console.log(slotData)
+  const [slots, setSlots] = useState<SlotData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const slotData = await fetchAvailableSlots(doctorId);
+        if (Array.isArray(slotData)) {
           setSlots(slotData);
-        } catch (error) {
-          console.error('Error al obtener los slots disponibles desde calendario:', error);
+        } else {
+          setError('Invalid data format');
         }
-      };
-  
-      fetchSlots();
-    }, [doctorId]); // Ejecutar solo cuando cambia el doctorId
-  
+      } catch (error) {
+        console.error('Error al obtener los slots disponibles desde calendario:', error);
+        setError('Error al obtener los slots disponibles');
+      }
+    };
 
+    fetchSlots();
+  }, [doctorId]);
 
-
-//   const generateSlots = (slotData: SlotData[]): string[] => {
-//     const generatedSlots: string[] = [];
-  
-//     slotData.forEach((slot) => {
-//       // Genera los slots a partir de los objetos SlotData
-//       generatedSlots.push(`${slot.date} - ${slot.slots}`);
-//     });
-  
-//     return generatedSlots;
-//   };
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
       <h2>Calendario de Citas</h2>
       <ul>
-        {slots.map((slot, index) => (
-          <li key={index}>{slot}</li>
+        {slots.map((slotData, index) => (
+          <li key={index}>
+            <strong>{slotData.date}</strong>
+            <ul>
+              {slotData.slots.map((slot, idx) => (
+                <li key={idx}>{slot}</li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
     </div>

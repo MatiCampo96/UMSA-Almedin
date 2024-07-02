@@ -90,13 +90,11 @@ export const fetchSpecialties = async (): Promise<string[]> => {
 };
 
 // Función para obtener los slots disponibles
-export const fetchAvailableSlots = async (doctorId: number): Promise<any> => {
-  try {
-    const response = await axios.get(`/turnos/available-slots/${doctorId}`);
-    console.log('Response data:', response.data); // Mostrar en la consola lo que sea que haya capturado
+export const fetchAvailableSlots = async (doctorId: number): Promise<SlotData[]> => {
+  const response = await api.get(`/turnos/available-slots/${doctorId}`);
+  if (response.data && Array.isArray(response.data)) {
     return response.data;
-  } catch (error) {
-    console.error('Error al obtener los slots disponibles desde api.ts:', error); // Mostrar el error en la consola
-    throw error; // Lanzar el error para manejarlo en el componente que llama a esta función
+  } else {
+    throw new Error('Invalid response format');
   }
 };
