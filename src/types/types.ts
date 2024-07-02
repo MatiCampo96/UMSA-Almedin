@@ -58,3 +58,8 @@ export interface Schedule {
     date: string;
     slots: string[];
   }
+
+  export interface AvailableSlots {
+    [date: string]: string[];
+  }
+  
