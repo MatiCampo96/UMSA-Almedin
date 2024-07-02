@@ -45,6 +45,8 @@ const CreateDate: React.FC = () => {
   const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); // Nuevo estado para la sucursal seleccionada
   const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   useEffect(() => {
     const getSpecialties = async () => {
@@ -97,6 +99,15 @@ const CreateDate: React.FC = () => {
     } catch (error) {
       console.error("Error al obtener los slots disponibles:", error);
     }
+  };
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDate(date);
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setSelectedTime(time);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleNext = () => {
@@ -183,7 +194,11 @@ const CreateDate: React.FC = () => {
                 Seleccionar Fecha y Hora:
               </Typography>
               {selectedSpecialistId !== undefined && (
-                <CalendarComponent doctorId={selectedSpecialistId} />
+                <CalendarComponent
+                  doctorId={selectedSpecialistId}
+                  onDateSelect={handleDateSelect}
+                  onTimeSelect={handleTimeSelect}
+                />
               )}
             </Grid>
           </Grid>
@@ -194,14 +209,31 @@ const CreateDate: React.FC = () => {
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Atrás
         </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleNext}
-          disabled={activeStep === 0}
-        >
-          Siguiente
-        </Button>
+        {activeStep < steps.length - 1 && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            disabled={activeStep === 0}
+          >
+            Siguiente
+          </Button>
+        )}
+        {activeStep === steps.length - 1 && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleCreateAppointment({
+              patientName: 'Nombre del Paciente', // Sustituir con el nombre real del paciente
+              date: selectedDate!,
+              time: selectedTime!,
+              specialist: selectedSpeciality!, // Puedes sustituir esto con el nombre del especialista real
+              reason: 'Motivo de la consulta' // Sustituir con el motivo real de la consulta
+            })}
+          >
+            Crear Turno
+          </Button>
+        )}
       </div>
     </Container>
   );

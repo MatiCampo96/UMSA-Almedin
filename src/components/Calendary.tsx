@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { Card, CardContent, Typography, List, ListItem, ListItemText, Box } from '@mui/material';
 import { fetchAvailableSlots } from '../api/api';
 import { SlotData } from '../types/types';
 
-const CalendarComponent: React.FC<{ doctorId: number }> = ({ doctorId }) => {
+interface CalendarComponentProps {
+  doctorId: number;
+  onDateSelect: (date: string) => void;
+  onTimeSelect: (time: string) => void;
+}
+
+const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateSelect, onTimeSelect }) => {
   const [slots, setSlots] = useState<SlotData[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSlots = async () => {
       try {
         const slotData = await fetchAvailableSlots(doctorId);
+        console.log('Slots disponibles:', slotData);
         if (Array.isArray(slotData)) {
           setSlots(slotData);
         } else {
@@ -24,26 +33,53 @@ const CalendarComponent: React.FC<{ doctorId: number }> = ({ doctorId }) => {
     fetchSlots();
   }, [doctorId]);
 
+  const handleDateClick = (date: string) => {
+    setSelectedDate(date);
+    onDateSelect(date);
+  };
+
+  const handleTimeClick = (time: string) => {
+    onTimeSelect(time);
+  };
+
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Box mt={4} color="error.main">Error: {error}</Box>;
   }
 
   return (
-    <div>
-      <h2>Calendario de Citas</h2>
-      <ul>
-        {slots.map((slotData, index) => (
-          <li key={index}>
-            <strong>{slotData.date}</strong>
-            <ul>
-              {slotData.slots.map((slot, idx) => (
-                <li key={idx}>{slot}</li>
+    <Box mt={4}>
+      {selectedDate === null ? (
+        <Card sx={{ mb: 2 }}>
+          <CardContent>
+            <Typography variant="h6" component="h4">
+              Selecciona una fecha
+            </Typography>
+            <List>
+              {slots.map((slotData, index) => (
+                <ListItem button key={index} onClick={() => handleDateClick(slotData.date)}>
+                  <ListItemText primary={slotData.date} />
+                </ListItem>
               ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </List>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card sx={{ mb: 2 }}>
+          <CardContent>
+            <Typography variant="h6" component="h4">
+              Selecciona una hora para {selectedDate}
+            </Typography>
+            <List>
+              {slots.find(slot => slot.date === selectedDate)?.slots.map((slot, idx) => (
+                <ListItem button key={idx} onClick={() => handleTimeClick(slot)}>
+                  <ListItemText primary={slot} />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      )}
+    </Box>
   );
 };
 
