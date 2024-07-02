@@ -1,52 +1,39 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Typography,
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  Grid,
-  CircularProgress,
-} from "@mui/material";
-import SpecialityCard from "../components/SpecialityCard";
-import SpecialistCard from "../components/SpecialistCard";
-import CalendarComponent from "../components/Calendary";
-import { fetchSpecialties, fetchSpecialistsBySpeciality } from "../api/api";
-import { Specialist, Branch } from "../types/types";
-import BranchCard from "../components/BranchCard"; // Importa el componente BranchCard aquí
-import {
-  getSpecialistsByBranch,
-  getBranchesFromSpecialists,
-} from "../services/CreateDate"; // Importa la función getSpecialistsByBranch
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Stepper, Step, StepLabel, Button, Grid, CircularProgress } from '@mui/material';
+import SpecialityCard from '../components/SpecialityCard';
+import SpecialistCard from '../components/SpecialistCard';
+import CalendarComponent from '../components/Calendary';
+import { fetchSpecialties, fetchSpecialistsBySpeciality } from '../api/api';
+import { Specialist, Branch } from '../types/types';
+import BranchCard from '../components/BranchCard'; // Importa el componente BranchCard aquí
+import { getSpecialistsByBranch, getBranchesFromSpecialists } from '../services/CreateDate'; // Importa la función getSpecialistsByBranch
+
 
 const steps = [
-  "Seleccionar Especialidad",
-  "Seleccionar Centro Médico",
-  "Seleccionar Especialista y Paciente",
-  "Seleccionar Fecha y Hora",
+  'Seleccionar Especialidad',
+  'Seleccionar Centro Médico',
+  'Seleccionar Especialista y Paciente',
+  'Seleccionar Fecha y Hora'
 ];
 
 const stepDescription = [
-  "Elija una especialidad medica",
-  "Seleccione un centro medico",
-  "Seleccione un paciente y profesional",
-  "Elija fecha y hora para su consulta",
+  'Elija una especialidad medica',
+  'Seleccione un centro medico',
+  'Seleccione un paciente y profesional',
+  'Elija fecha y hora para su consulta'
 ];
 
 const CreateDate: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [specialities, setSpecialties] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(
-    null
-  );
+  const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(null);
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); // Nuevo estado para la sucursal seleccionada
-  const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedSpecialistId, setSelectedSpecialistId] = useState<number | null>(null); // Estado para la ID del especialista seleccionado
+
+
 
   useEffect(() => {
     const getSpecialties = async () => {
@@ -54,7 +41,7 @@ const CreateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        console.error("Error encontrando especialidades:", error);
+        console.error('Error encontrando especialidades:', error);
       } finally {
         setLoading(false);
       }
@@ -75,9 +62,10 @@ const CreateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      console.error("Error al cargar los especialistas:", error);
+      console.error('Error al cargar los especialistas:', error);
     }
   };
+
 
   const handleSelectBranch = (branch: Branch) => {
     setSelectedBranch(branch);
@@ -97,19 +85,10 @@ const CreateDate: React.FC = () => {
       setSelectedSpecialistId(specialistId);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      console.error("Error al obtener los slots disponibles:", error);
+      console.error('Error al obtener los slots disponibles:', error);
     }
   };
-
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date);
-  };
-
-  const handleTimeSelect = (time: string) => {
-    setSelectedTime(time);
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
+  
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -125,7 +104,7 @@ const CreateDate: React.FC = () => {
     specialist: string;
     reason: string;
   }) => {
-    console.log("Crear Turno:", data);
+    console.log('Crear Turno:', data);
     // TODO: Lógica para enviar la solicitud del turno
   };
 
@@ -155,20 +134,14 @@ const CreateDate: React.FC = () => {
       <div>
         {activeStep === 0 && (
           <Grid container spacing={2}>
-            <SpecialityCard
-              specialities={specialities}
-              onSelectSpeciality={handleSelectSpeciality}
-            />
+            <SpecialityCard specialities={specialities} onSelectSpeciality={handleSelectSpeciality} />
           </Grid>
         )}
         {activeStep === 1 && (
           <Grid container spacing={2}>
             {filteredBranches.map((branch, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
-                <BranchCard
-                  {...branch}
-                  onClick={() => handleSelectBranch(branch)}
-                />
+                <BranchCard {...branch} onClick={() => handleSelectBranch(branch)} />
               </Grid>
             ))}
           </Grid>
@@ -178,28 +151,17 @@ const CreateDate: React.FC = () => {
             {/* Mostrar especialistas por sucursal */}
             {specialists.map((specialist, index) => (
               <Grid item key={index} xs={12} sm={6} md={4}>
-                <SpecialistCard
-                  onClick={() => handleSelectSpecialist(specialist.id)}
-                  {...specialist}
-                />
+                 <SpecialistCard onClick={() => handleSelectSpecialist(specialist.id)} {...specialist} />
               </Grid>
             ))}
           </Grid>
         )}
-        {activeStep === 3 && (
+         {activeStep === 3 && (
           <Grid container spacing={2}>
             {/* Mostrar calendario */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Seleccionar Fecha y Hora:
-              </Typography>
-              {selectedSpecialistId !== undefined && (
-                <CalendarComponent
-                  doctorId={selectedSpecialistId}
-                  onDateSelect={handleDateSelect}
-                  onTimeSelect={handleTimeSelect}
-                />
-              )}
+            <Typography variant="h6" gutterBottom>Seleccionar Fecha y Hora:</Typography>
+            <CalendarComponent doctorId={selectedSpecialistId} />
             </Grid>
           </Grid>
         )}
@@ -209,31 +171,9 @@ const CreateDate: React.FC = () => {
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Atrás
         </Button>
-        {activeStep < steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNext}
-            disabled={activeStep === 0}
-          >
-            Siguiente
-          </Button>
-        )}
-        {activeStep === steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleCreateAppointment({
-              patientName: 'Nombre del Paciente', // Sustituir con el nombre real del paciente
-              date: selectedDate!,
-              time: selectedTime!,
-              specialist: selectedSpeciality!, // Puedes sustituir esto con el nombre del especialista real
-              reason: 'Motivo de la consulta' // Sustituir con el motivo real de la consulta
-            })}
-          >
-            Crear Turno
-          </Button>
-        )}
+        <Button variant="contained" color="primary" onClick={handleNext} disabled={activeStep === 0}>
+          Siguiente
+        </Button>
       </div>
     </Container>
   );
