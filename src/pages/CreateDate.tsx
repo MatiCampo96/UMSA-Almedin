@@ -44,9 +44,7 @@ const CreateDate: React.FC = () => {
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); // Nuevo estado para la sucursal seleccionada
-  const [selectedSpecialistId, setSelectedSpecialistId] = useState<
-    number
-  >(); // Estado para la ID del especialista seleccionado
+  const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
 
   useEffect(() => {
     const getSpecialties = async () => {
@@ -184,7 +182,9 @@ const CreateDate: React.FC = () => {
               <Typography variant="h6" gutterBottom>
                 Seleccionar Fecha y Hora:
               </Typography>
-              <CalendarComponent doctorId={selectedSpecialistId} />
+              {selectedSpecialistId !== undefined && (
+                <CalendarComponent doctorId={selectedSpecialistId} />
+              )}
             </Grid>
           </Grid>
         )}
