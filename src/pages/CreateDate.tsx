@@ -43,7 +43,7 @@ const CreateDate: React.FC = () => {
   );
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
-  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); // Nuevo estado para la sucursal seleccionada
+  // const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); // Nuevo estado para la sucursal seleccionada
   const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -80,7 +80,7 @@ const CreateDate: React.FC = () => {
   };
 
   const handleSelectBranch = (branch: Branch) => {
-    setSelectedBranch(branch);
+    // setSelectedBranch(branch);
 
     // Obtener los especialistas por sucursal usando tu función getSpecialistsByBranch
     const specialistsByBranch = getSpecialistsByBranch(specialists);

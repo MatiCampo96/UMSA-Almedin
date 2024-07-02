@@ -8,7 +8,6 @@ const api = axios.create({
 export const fetchSpecialists = async (): Promise<Specialist[]> => {
   try {
     const response = await api.get("/especialistas");
-    console.log("aya", response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -79,7 +78,6 @@ export const login = async (email: string, password: string): Promise<string> =>
 export const fetchSpecialties = async (): Promise<string[]> => {
   try {
     const response = await api.get("/especialidades");
-    console.log(response.data)
     return response.data.map((item: string) => item.toString());
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
