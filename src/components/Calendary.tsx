@@ -18,7 +18,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
     const fetchSlots = async () => {
       try {
         const slotData = await fetchAvailableSlots(doctorId);
-        console.log('Slots disponibles:', slotData);
         if (Array.isArray(slotData)) {
           setSlots(slotData);
         } else {

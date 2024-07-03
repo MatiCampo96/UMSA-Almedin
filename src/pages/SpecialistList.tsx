@@ -39,13 +39,14 @@ const SpecialistList: React.FC = () => {
       <Grid container spacing={4}>
         {specialists.map((specialist, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>
-            <SpecialistCard   //TODO! Warning pidiendo que incluyamos datos que estamos ignorando
-              firstName={specialist.firstName}
-              lastName={specialist.lastName}
-              speciality={specialist.speciality}
-              branch={specialist.branch}
-              schedules={specialist.schedules}
-            />
+            <SpecialistCard showDetails={true} //TODO! Warning pidiendo que incluyamos datos que estamos ignorando
+            firstName={specialist.firstName}
+            lastName={specialist.lastName}
+            speciality={specialist.speciality}
+            branch={specialist.branch}
+            schedules={specialist.schedules} onClick={function (): void {
+              throw new Error('Function not implemented.');
+            } } id={0} dni={''} appointments={[]}            />
           </Grid>
         ))}
       </Grid>

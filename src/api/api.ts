@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist, SlotData } from "../types/types";
+import { Appointment, Specialist, SlotData, Patient, AppointmentCreate } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -8,7 +8,6 @@ const api = axios.create({
 export const fetchSpecialists = async (): Promise<Specialist[]> => {
   try {
     const response = await api.get("/especialistas");
-    console.log("aya", response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -79,7 +78,6 @@ export const login = async (email: string, password: string): Promise<string> =>
 export const fetchSpecialties = async (): Promise<string[]> => {
   try {
     const response = await api.get("/especialidades");
-    console.log(response.data)
     return response.data.map((item: string) => item.toString());
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -98,3 +96,27 @@ export const fetchAvailableSlots = async (doctorId: number): Promise<SlotData[]>
     throw new Error('Invalid response format');
   }
 };
+export const fetchPatients = async (): Promise<Patient[]> => {
+  try {
+    const response = await api.get("/pacientes");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar los pacientes');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const createAppointment = async (appointmentCreate: AppointmentCreate): Promise<AppointmentCreate> => {
+  try {
+    const response = await api.post('/appointments', appointmentCreate);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al crear el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
+
