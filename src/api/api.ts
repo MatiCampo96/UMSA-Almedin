@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist, SlotData } from "../types/types";
+import { Appointment, Specialist, SlotData, Patient, AppointmentCreate } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -96,3 +96,27 @@ export const fetchAvailableSlots = async (doctorId: number): Promise<SlotData[]>
     throw new Error('Invalid response format');
   }
 };
+export const fetchPatients = async (): Promise<Patient[]> => {
+  try {
+    const response = await api.get("/pacientes");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar los pacientes');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const createAppointment = async (appointmentCreate: AppointmentCreate): Promise<AppointmentCreate> => {
+  try {
+    const response = await api.post('/turnos', appointmentCreate);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al crear el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
+
