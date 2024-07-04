@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { fetchPatients } from '../api/api'; // Asegúrate de importar tu método fetchPatients
-import { Patient } from '../types/types'; // Asegúrate de importar el tipo Patient
+import { fetchPatients } from '../api/api';
+import { Patient } from '../types/types';
 
 interface PatientSelectorProps {
-  onSelectPatient: (patientId: number) => void; // Función para manejar la selección del paciente
+  onSelectPatient: (patientId: number) => void;
 }
 
 const PatientSelector: React.FC<PatientSelectorProps> = ({ onSelectPatient }) => {
@@ -27,14 +27,14 @@ const PatientSelector: React.FC<PatientSelectorProps> = ({ onSelectPatient }) =>
   return (
     <Autocomplete
       value={selectedPatient}
-      onChange={(event, newValue) => {
+      onChange={(_event, newValue) => {
         setSelectedPatient(newValue);
         if (newValue) {
-          onSelectPatient(newValue.id); // Pasar el ID del paciente seleccionado al padre
+          onSelectPatient(newValue.id);
         }
       }}
       options={patients}
-      getOptionLabel={(option) => `${option.firstName} ${option.lastName}`} // Mostrar nombre y apellido
+      getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
       renderInput={(params) => <TextField {...params} label="Seleccionar paciente" variant="outlined" />}
       filterOptions={(options, params) => {
         const filtered = options.filter((option) =>
@@ -43,6 +43,7 @@ const PatientSelector: React.FC<PatientSelectorProps> = ({ onSelectPatient }) =>
         );
         return filtered;
       }}
+      sx={{ width: '100%', mt: 2 }}
     />
   );
 };

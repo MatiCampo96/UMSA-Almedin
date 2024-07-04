@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { TextField, Box } from '@mui/material';
 
 interface QueryReasonInputProps {
   queryReason: string;
-  setQueryReason: (value: string) => void;
+  setQueryReason: (reason: string) => void;
 }
 
 const QueryReasonInput: React.FC<QueryReasonInputProps> = ({ queryReason, setQueryReason }) => {
@@ -12,15 +12,17 @@ const QueryReasonInput: React.FC<QueryReasonInputProps> = ({ queryReason, setQue
   };
 
   return (
-    <TextField
-      label="Motivo de la consulta"
-      multiline
-      rows={4}
-      value={queryReason}
-      onChange={handleChange}
-      variant="outlined"
-      fullWidth
-    />
+    <Box mt={2}>
+      <TextField
+        label="Motivo de la Consulta"
+        value={queryReason}
+        onChange={handleChange}
+        multiline
+        rows={4}
+        variant="outlined"
+        fullWidth
+      />
+    </Box>
   );
 };
 

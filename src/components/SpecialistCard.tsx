@@ -4,8 +4,8 @@ import { Specialist } from '../types/types';
 import { formatSchedule, sortSchedulesByDay } from '../utils/schedule';
 
 interface SpecialistCardProps extends Specialist {
-  onClick: () => void; // Función para manejar el click en la tarjeta
-  showDetails: boolean; // Nueva prop para controlar la visualización de detalles
+  onClick: () => void;
+  showDetails: boolean;
 }
 
 const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, speciality, branch, schedules, onClick, showDetails }) => {
@@ -17,7 +17,7 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, sp
   };
 
   return (
-    <Card sx={{ maxWidth: 345, mb: 2 }}>
+    <Card sx={{ maxWidth: 345, mb: 2, boxShadow: 3 }}>
       <CardActionArea onClick={onClick}>
         <CardContent>
           <Typography variant="h6">{`${firstName} ${lastName}`}</Typography>

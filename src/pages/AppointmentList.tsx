@@ -6,9 +6,15 @@ import { Appointment } from '../types/types';
 import axios from 'axios';
 import { fetchAvailableSlots } from '../api/api';
 
-(window as any).axios = axios;
-(window as any).fetchAvailableSlots = fetchAvailableSlots;
+declare global {
+  interface Window {
+    axios: typeof axios;
+    fetchAvailableSlots: typeof fetchAvailableSlots;
+  }
+}
 
+window.axios = axios;
+window.fetchAvailableSlots = fetchAvailableSlots;
 
 const AppointmentList: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);

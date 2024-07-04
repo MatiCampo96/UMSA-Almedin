@@ -7,14 +7,12 @@ interface SpecialityCardProps {
 }
 
 const SpecialityCard: React.FC<SpecialityCardProps> = ({ specialities, onSelectSpeciality }) => {
-  // const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(null);
   const formatSpeciality = (speciality: string): { formatted: string; value: string } => {
     const formatted = speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
     return { formatted, value: speciality };
   };
 
   const handleSelect = (value: string) => {
-    // setSelectedSpeciality(value);
     onSelectSpeciality(value);
   };
 
@@ -24,7 +22,7 @@ const SpecialityCard: React.FC<SpecialityCardProps> = ({ specialities, onSelectS
         const { formatted, value } = formatSpeciality(speciality);
         return (
           <Grid item key={index} xs={12} sm={6} md={4}>
-            <Card sx={{ maxWidth: 345, mb: 2 }}>
+            <Card sx={{ maxWidth: 345, mb: 2, boxShadow: 3 }}>
               <CardActionArea onClick={() => handleSelect(value)}>
                 <CardContent>
                   <Typography variant="h6">{formatted}</Typography>

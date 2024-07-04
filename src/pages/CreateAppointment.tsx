@@ -1,20 +1,13 @@
-import React from 'react';
-import { Container, Typography } from '@mui/material';
-import AppointmentForm from '../components/AppointmentForm';
+import React from "react";
+import CreateDate from "./CreateDate";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 const CreateAppointment: React.FC = () => {
-  const handleCreateAppointment = (data: { patientName: string; date: string; time: string; specialist: string; reason: string }) => {
-    console.log('Crear Turno:', data);
-    //TODO: Lógica para enviar la solicitud del turno
-  };
-
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Crear Turno Médico
-      </Typography>
-      <AppointmentForm onSubmit={handleCreateAppointment} />
-    </Container>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <CreateDate />
+    </LocalizationProvider>
   );
 };
 

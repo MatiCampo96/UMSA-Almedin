@@ -7,17 +7,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreateAppointment from "./pages/CreateAppointment";
-import CreateDate from "./pages/CreateDate";
 import SpecialistList from "./pages/SpecialistList";
 import UpdateAppointment from "./pages/UpdateAppointment";
 import CancelAppointment from "./pages/CancelAppointment";
 import DownloadPrescription from "./pages/DownloadPrescription";
 import { AuthProvider } from "./context/AuthContext";
 import AppointmentList from "./pages/AppointmentList";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme";
 
 const App: React.FC = () => {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <AuthProvider>
@@ -28,7 +29,6 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/turnos" element={<AppointmentList />} />
             <Route path="/turnos/crear" element={<CreateAppointment />} />
-            <Route path="/turnos/crear_cita" element={<CreateDate />} />
             <Route path="/especialistas" element={<SpecialistList />} />
             <Route path="/turnos/actualizar" element={<UpdateAppointment />} />
             <Route path="/turnos/cancelar" element={<CancelAppointment />} />
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           <Footer />
         </AuthProvider>
       </Router>
-    </>
+    </ThemeProvider>
   );
 };
 

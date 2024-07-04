@@ -96,6 +96,7 @@ export const fetchAvailableSlots = async (doctorId: number): Promise<SlotData[]>
     throw new Error('Invalid response format');
   }
 };
+
 export const fetchPatients = async (): Promise<Patient[]> => {
   try {
     const response = await api.get("/pacientes");
