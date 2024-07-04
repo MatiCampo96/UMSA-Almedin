@@ -31,7 +31,7 @@ import {
   getBranchesFromSpecialists,
 } from "../services/CreateDate";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
 const steps = [
   "Seleccionar Especialidad",
@@ -164,30 +164,33 @@ const CreateDate: React.FC = () => {
       alert("Por favor, completa todos los campos.");
       return;
     }
-
+  
+    // Convert selectedDateHour to UTC
+    const dateHourUTC = new Date(selectedDateHour).toISOString();
+  
     const appointment = {
       doctor_id: selectedSpecialistId,
       patient_id: selectedPatientId,
       queryReason: queryReason,
-      dateHour: selectedDateHour,
+      dateHour: dateHourUTC, // Use the UTC date
     };
-
+  
     try {
       const createdAppointment = await createAppointment(appointment);
       console.log("Appointment created:", createdAppointment);
-
+  
       setSnackbarMessage("Cita creada satisfactoriamente");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       navigate("/turnos");
     } catch (error) {
       console.error(error);
-
+  
       setSnackbarMessage("Error al crear la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
-  };
+  };  
 
   if (loading) {
     return (
