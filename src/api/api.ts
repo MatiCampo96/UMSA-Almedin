@@ -110,7 +110,7 @@ export const fetchPatients = async (): Promise<Patient[]> => {
 
 export const createAppointment = async (appointmentCreate: AppointmentCreate): Promise<AppointmentCreate> => {
   try {
-    const response = await api.post('/appointments', appointmentCreate);
+    const response = await api.post('/turnos', appointmentCreate);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

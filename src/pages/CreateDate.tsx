@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Stepper, Step, StepLabel, Button, Grid, CircularProgress } from '@mui/material';
+import { Container, Typography, Stepper, Step, StepLabel, Button, Grid, CircularProgress, Snackbar, Alert, Divider } from '@mui/material';
 import SpecialityCard from '../components/SpecialityCard';
 import SpecialistCard from '../components/SpecialistCard';
 import PatientSelector from '../components/PatientSelector'; // Asegúrate de importar tu nuevo componente PatientSelector
@@ -42,6 +42,11 @@ const CreateDate: React.FC = () => {
   const [queryReason, setQueryReason] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  //SNACK; EXPORTAR!!
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+
 
   const selectedDateHour = formatDateHour(selectedDate, selectedTime)
 
@@ -128,8 +133,8 @@ const CreateDate: React.FC = () => {
     }
 
     const appointment = {
-      specialistId: selectedSpecialistId,
-      patientId: selectedPatientId,
+      doctor_id: selectedSpecialistId,
+      patient_id: selectedPatientId,
       queryReason: queryReason,
       dateHour: selectedDateHour,
     };
@@ -137,10 +142,19 @@ const CreateDate: React.FC = () => {
     try {
       const createdAppointment = await createAppointment(appointment);
       console.log('Appointment created:', createdAppointment);
+
+      setSnackbarMessage('Cita creada satisfactoriamente');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
     } catch (error) {
       console.error(error);
+
+      setSnackbarMessage('Error al crear la cita');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
+
 
   if (loading) {
     return (
@@ -180,25 +194,43 @@ const CreateDate: React.FC = () => {
             ))}
           </Grid>
         )}
-        {activeStep === 2 && (
-        <Grid container spacing={2}>
-          {/* Mostrar especialistas por sucursal */}
-          {specialists.map((specialist, index) => (
-            <Grid item key={index} xs={12} sm={6} md={4}>
-              <SpecialistCard showDetails={false} onClick={() => handleSelectSpecialist(specialist.id)} {...specialist} />
-            </Grid>
-          ))}
-
-          {/* Selector de pacientes */}
-          <Grid item xs={12} sm={6} md={4}>
-            <PatientSelector onSelectPatient={handleSelectPatient} />
-          </Grid>
+{activeStep === 2 && (
+  <>
+    <Grid container spacing={2}>
+      {/* Título para los especialistas */}
+      <Grid item xs={12}>
+        <Typography variant="h6" align="center">
+          Selecciona un Especialista
+        </Typography>
+        <Divider />
+      </Grid>
+      
+      {/* Mostrar especialistas por sucursal */}
+      {specialists.map((specialist, index) => (
+        <Grid item key={index} xs={12} sm={6} md={4}>
+          <SpecialistCard showDetails={false} onClick={() => handleSelectSpecialist(specialist.id)} {...specialist} />
         </Grid>
-      )}
-
-      {/* Muestra el ID del paciente y especialista seleccionado como ejemplo */}
-      {selectedPatientId && <p>ID del paciente seleccionado: {selectedPatientId}</p>}
-      {selectedSpecialistId && <p>ID del especialista seleccionado: {selectedSpecialistId}</p>}
+      ))}
+      
+      {/* Título para el selector de pacientes */}
+      <Grid item xs={12}>
+        <Typography variant="h6" align="center">
+          Selecciona un Paciente
+        </Typography>
+        <Divider />
+      </Grid>
+      
+      {/* Selector de pacientes */}
+      <Grid item xs={12} sm={6} md={4}>
+        <PatientSelector onSelectPatient={handleSelectPatient} />
+      </Grid>
+    </Grid>
+    
+    {/* Muestra el ID del paciente y especialista seleccionado como ejemplo */}
+    {selectedPatientId && <Typography>ID del paciente seleccionado: {selectedPatientId}</Typography>}
+    {selectedSpecialistId && <Typography>ID del especialista seleccionado: {selectedSpecialistId}</Typography>}
+  </>
+)}
          {activeStep === 3 && (
           <Grid container spacing={2}>
             {/* Mostrar calendario */}
@@ -245,6 +277,15 @@ const CreateDate: React.FC = () => {
           </Button>
         )}
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

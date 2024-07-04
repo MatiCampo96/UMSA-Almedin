@@ -31,7 +31,7 @@ export interface Schedule {
     email: string;
     phone: string;
     Role: string;
-    appointments: Appointment[];
+    //appointments: Appointment[];
   }
 
   export interface Recipe {
@@ -50,6 +50,13 @@ export interface Schedule {
     queryReason: string;
   }
 
+  export interface AppointmentCreate {
+    id?: number;
+    doctor_id: number;
+    patient_id: number;
+    queryReason: string;
+    dateHour: string,
+  }
   export interface Specialties {
     specialties: string[];
   }
