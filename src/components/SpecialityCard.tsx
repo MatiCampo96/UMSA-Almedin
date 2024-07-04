@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, Typography, Grid, CardActionArea } from '@mui/material';
 
 interface SpecialityCardProps {
@@ -7,15 +7,14 @@ interface SpecialityCardProps {
 }
 
 const SpecialityCard: React.FC<SpecialityCardProps> = ({ specialities, onSelectSpeciality }) => {
-  const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(null);
-
+  // const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(null);
   const formatSpeciality = (speciality: string): { formatted: string; value: string } => {
     const formatted = speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
     return { formatted, value: speciality };
   };
 
   const handleSelect = (value: string) => {
-    setSelectedSpeciality(value);
+    // setSelectedSpeciality(value);
     onSelectSpeciality(value);
   };
 
