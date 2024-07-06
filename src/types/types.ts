@@ -59,7 +59,7 @@ export interface Schedule {
   }
 
   export interface AppointmentUpdate {
-    id?: number;
+    id: number;
     doctor_id: number;
     patient_id: number;
     queryReason: string;

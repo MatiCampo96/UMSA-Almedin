@@ -8,7 +8,7 @@ const UpdateAppointmentStepper = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [appointmentDetails, setAppointmentDetails] = useState<AppointmentUpdate | null>(null);
   const [updatedData, setUpdatedData] = useState<AppointmentUpdate>({
-    id: undefined,
+    id: 0,
     doctor_id: 0,
     patient_id: 0,
     queryReason: '',
@@ -66,7 +66,7 @@ const UpdateAppointmentStepper = () => {
 
   const handleSave = async () => {
     try {
-      const updatedAppointment = await updateAppointment(updatedData);
+      const updatedAppointment = await updateAppointment( updatedData.id, updatedData);
       console.log('Updated Appointment:', updatedAppointment);
       // Handle success (e.g., show a success message, navigate to another page, etc.)
     } catch (error) {

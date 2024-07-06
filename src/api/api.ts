@@ -180,13 +180,13 @@ export const deleteAppointment = async (appointmentId: number): Promise<void> =>
   }
 };
 
-export const updateAppointment = async (appointmentUpdate: AppointmentUpdate): Promise<AppointmentUpdate> => {
+export const updateAppointment = async (appointmentId : number, appointmentUpdate: AppointmentUpdate): Promise<AppointmentUpdate> => {
   try {
-    const response = await api.put(`/turnos/${appointmentUpdate.id}`, appointmentUpdate);
+    const response = await api.put(`/turnos/${appointmentId}`, appointmentUpdate);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message || 'Error al actualizar el turno');
+      throw new Error(error.response.data.message || 'Error al crear el turno');
     }
     throw new Error('Error de red');
   }
