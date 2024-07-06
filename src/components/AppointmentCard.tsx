@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box, Button } from '@mui/material';
-import { Appointment } from '../types/types';
+import { Appointment, Recipe } from '../types/types';
 
 interface AppointmentCardProps extends Appointment {
   onEdit: () => void;
@@ -13,6 +13,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }) => {
   const formatSpeciality = (speciality: string): string => {
     return speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+  };
+
+  const formatRecipe = (recipe: Recipe): string => {
+    // Adjust this function based on the actual structure of Recipe
+    return `Recipe details: ${recipe.description}`;
   };
 
   return (
@@ -28,12 +33,22 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           {doctor ? `${doctor.firstName} ${doctor.lastName} - ${formatSpeciality(doctor.speciality)}` : 'No specialist info'}
         </Typography>
         <Typography color="text.secondary">{queryReason}</Typography>
+        {recipes.length > 0 && (
+          <Typography color="text.secondary">
+            Recetas:
+            <ul>
+              {recipes.map((recipe, index) => (
+                <li key={index}>{formatRecipe(recipe)}</li>
+              ))}
+            </ul>
+          </Typography>
+        )}
       </CardContent>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
         <Button variant="contained" color="warning" onClick={onEdit}>
           Editar
         </Button>
-        <Button variant="outlined" color="error"onClick={onCancel}>
+        <Button variant="outlined" color="error" onClick={onCancel}>
           Cancelar
         </Button>
         <Button variant="contained" color="success" onClick={onDownloadRecipes}>
