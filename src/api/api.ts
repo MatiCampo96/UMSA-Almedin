@@ -145,6 +145,18 @@ export const createAppointment = async (appointmentCreate: AppointmentCreate): P
   }
 };
 
+export const updateAppointment = async (appointmentId : number, appointmentCreate: AppointmentCreate): Promise<AppointmentCreate> => {
+  try {
+    const response = await api.put(`/turnos/${appointmentId}`, appointmentCreate);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al crear el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
+
 export const fetchRecipes = async (appointmentId: number): Promise<Recipe[]> => {
   try {
     const token = localStorage.getItem('token'); // Obtén el token desde localStorage

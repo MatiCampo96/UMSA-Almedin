@@ -5,13 +5,17 @@ import { fetchAppointmentsByPatientId } from '../api/api';
 import { deleteAppointment } from '../api/api';
 import { fetchRecipes } from '../api/api';
 import { Appointment } from '../types/types';
-import { generatePDF } from '../services/DownloadRecipes'; // Ajusta la ruta según sea necesario
+import { generatePDF } from '../services/DownloadRecipes';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 const AppointmentList: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const getAppointments = async () => {
@@ -58,6 +62,10 @@ const AppointmentList: React.FC = () => {
     }
   };
 
+  const handleEdit = (appointmentId: number) => {
+    navigate(`/turnos/actualizar/${appointmentId}`);
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
@@ -74,9 +82,8 @@ const AppointmentList: React.FC = () => {
       <Grid container spacing={4}>
         {appointments.map((appointment) => (
           <Grid item key={appointment.id} xs={12} sm={6} md={4}>
-            <AppointmentCard onEdit={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            <AppointmentCard 
+              onEdit={() => handleEdit(appointment.id)}
               onCancel={() => handleCancel(appointment.id)}
               onDownloadRecipes={() => handleDownloadRecipes(appointment.id)}
               {...appointment} />
