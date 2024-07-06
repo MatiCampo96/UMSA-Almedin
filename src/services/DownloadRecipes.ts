@@ -39,4 +39,3 @@ export const generatePDF = (recipes: Recipe[]): void => {
   // Descargar el PDF
   doc.save('recetas.pdf');
 };
-
