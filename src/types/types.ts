@@ -37,7 +37,7 @@ export interface Schedule {
   export interface Recipe {
     id: number;
     description: string;
-    appointment: Appointment;
+    appointment_id: number;
     issueDate: Date;
   }
 

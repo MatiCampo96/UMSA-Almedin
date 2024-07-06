@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist, SlotData, Patient, AppointmentCreate } from "../types/types";
+import { Appointment, Specialist, SlotData, Patient, AppointmentCreate, Recipe } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -33,6 +33,18 @@ export const fetchSpecialistsBySpeciality = async (speciality: string): Promise<
 export const fetchAppointments = async (): Promise<Appointment[]> => {
   try {
     const response = await api.get("/turnos");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar los turnos');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const fetchAppointmentsByPatientId = async (patientId: number): Promise<Appointment[]> => {
+  try {
+    const response = await api.get(`/turnos/paciente/${patientId}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -121,3 +133,37 @@ export const createAppointment = async (appointmentCreate: AppointmentCreate): P
   }
 };
 
+export const fetchRecipes = async (appointmentId: number): Promise<Recipe[]> => {
+  try {
+    const token = localStorage.getItem('token'); // Obtén el token desde localStorage
+    if (!token) {
+      throw new Error('No se encontró el token de autenticación');
+    }
+
+    const response = await api.get(`/recetas/${appointmentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}` // Incluye el token en el encabezado
+      }
+    });
+//Solo depuracion
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cargar las recetas');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const deleteAppointment = async (appointmentId: number): Promise<void> => {
+  try {
+    await api.delete(`/turnos/${appointmentId}`);
+    console.log('Turno eliminado exitosamente');
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al eliminar el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
