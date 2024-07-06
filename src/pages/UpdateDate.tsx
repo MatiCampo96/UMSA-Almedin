@@ -21,7 +21,7 @@ import CalendarComponent from "../components/CalendarComponent";
 import {
   fetchSpecialties,
   fetchSpecialistsBySpeciality,
-  updateAppointment,
+  userUpdateAppointment,
 } from "../api/api";
 import { Specialist, Branch } from "../types/types";
 import BranchCard from "../components/BranchCard";
@@ -172,7 +172,7 @@ const UpdateDate: React.FC = () => {
     };
 
     try {
-      const updatedAppointment = await updateAppointment(Number(appointmentId), appointment);
+      const updatedAppointment = await userUpdateAppointment(Number(appointmentId), appointment);
       console.log("Appointment updated:", updatedAppointment);
       setSnackbarMessage("Cita actualizada satisfactoriamente");
       setSnackbarSeverity("success");

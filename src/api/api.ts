@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist, SlotData, Patient, AppointmentCreate, Recipe, AppointmentUpdate } from "../types/types";
+import { Appointment, Specialist, SlotData, Patient, AppointmentCreate, Recipe, AppointmentUpdate, UserAppointmentUpdate } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -183,6 +183,18 @@ export const deleteAppointment = async (appointmentId: number): Promise<void> =>
 export const updateAppointment = async (appointmentId : number, appointmentUpdate: AppointmentUpdate): Promise<AppointmentUpdate> => {
   try {
     const response = await api.put(`/turnos/${appointmentId}`, appointmentUpdate);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al crear el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const userUpdateAppointment = async (appointmentId : number, userAppointmentUpdate: UserAppointmentUpdate): Promise<AppointmentUpdate> => {
+  try {
+    const response = await api.put(`/turnos/${appointmentId}`, userAppointmentUpdate);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
