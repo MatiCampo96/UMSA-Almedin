@@ -13,19 +13,19 @@ import {
   Divider,
   Box,
 } from "@mui/material";
-import SpecialityCard from "../components/SpecialityCard";
-import SpecialistCard from "../components/SpecialistCard";
-import PatientSelector from "../components/PatientSelector";
-import QueryReasonInput from "../components/QueryReasonInput";
+import SpecialityCard from "./SpecialityCard";
+import SpecialistCard from "./SpecialistCard";
+import PatientSelector from "./PatientSelector";
+import QueryReasonInput from "./QueryReasonInput";
 import { formatDateHour } from "../utils/dateHour";
-import CalendarComponent from "../components/CalendarComponent";
+import CalendarComponent from "./CalendarComponent";
 import {
   fetchSpecialties,
   fetchSpecialistsBySpeciality,
   createAppointment,
 } from "../api/api";
 import { Specialist, Branch } from "../types/types";
-import BranchCard from "../components/BranchCard";
+import BranchCard from "./BranchCard";
 import {
   getSpecialistsByBranch,
   getBranchesFromSpecialists,

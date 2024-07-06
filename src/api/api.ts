@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Appointment, Specialist, SlotData, Patient, AppointmentCreate, Recipe } from "../types/types";
+import { Appointment, Specialist, SlotData, Patient, AppointmentCreate, Recipe, AppointmentUpdate } from "../types/types";
 
 const api = axios.create({
   baseURL: "http://localhost:8080",
@@ -37,6 +37,18 @@ export const fetchAppointments = async (): Promise<Appointment[]> => {
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Error al cargar los turnos');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const fetchAppointmentDetails = async (id: number): Promise<Appointment> => {
+  try {
+    const response = await api.get(`/turnos/${id}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al obtener los detalles del turno');
     }
     throw new Error('Error de red');
   }
@@ -163,6 +175,18 @@ export const deleteAppointment = async (appointmentId: number): Promise<void> =>
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Error al eliminar el turno');
+    }
+    throw new Error('Error de red');
+  }
+};
+
+export const updateAppointment = async (appointmentUpdate: AppointmentUpdate): Promise<AppointmentUpdate> => {
+  try {
+    const response = await api.put(`/turnos/${appointmentUpdate.id}`, appointmentUpdate);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al actualizar el turno');
     }
     throw new Error('Error de red');
   }
