@@ -82,18 +82,20 @@ const AppointmentList: React.FC = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Lista de Citas Médicas
       </Typography>
-      <Grid container spacing={4}>
-        {appointments.map((appointment) => (
-          <Grid item key={appointment.id} xs={12} sm={6} md={4}>
-            <AppointmentCard
-              onEdit={() => handleEdit(appointment.id)}
-              onCancel={() => handleCancel(appointment.id)}
-              onDownloadRecipes={() => handleDownloadRecipes(appointment.id)}
-              {...appointment}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <Box sx={{ height: '70vh', overflow: 'auto' }}>
+        <Grid container spacing={4}>
+          {appointments.map((appointment) => (
+            <Grid item key={appointment.id} xs={12} sm={6} md={4}>
+              <AppointmentCard
+                onEdit={() => handleEdit(appointment.id)}
+                onCancel={() => handleCancel(appointment.id)}
+                onDownloadRecipes={() => handleDownloadRecipes(appointment.id)}
+                {...appointment}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Container>
   );
 };

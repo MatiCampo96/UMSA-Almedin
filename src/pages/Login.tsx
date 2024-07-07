@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
-import { login as loginApi } from '../api/api';
-import { useAuth } from '../context/AuthContext';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
+import React, { useState } from "react";
+import { login as loginApi } from "../api/api";
+import { useAuth } from "../context/AuthContext";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+} from "@mui/material";
 
 const Login: React.FC = () => {
   //TODO: Logica de iniciar sesion
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
-  
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -24,8 +30,8 @@ const Login: React.FC = () => {
     event.preventDefault();
     try {
       const token = await loginApi(email, password);
-      login(token);  // Almacenar el token
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      login(token); // Almacenar el token
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError(error.message);
     }
@@ -33,12 +39,12 @@ const Login: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 8 }}>
+      <Box sx={{ height: "76vh", overflow: "auto", justifyContent: "center", justifyItems: "center", display: "flex", flexDirection: "column" }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Iniciar Sesion
         </Typography>
         <form onSubmit={handleSubmit}>
-        {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
           <TextField
             margin="normal"
             required

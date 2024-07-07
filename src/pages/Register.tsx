@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
-import { useAuth } from '../context/AuthContext';
-import { register as registerApi } from '../api/api';
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+} from "@mui/material";
+import { useAuth } from "../context/AuthContext";
+import { register as registerApi } from "../api/api";
 
 const Register: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { register } = useAuth();
 
@@ -15,8 +22,8 @@ const Register: React.FC = () => {
     event.preventDefault();
     try {
       const token = await registerApi(email, password, firstName, lastName);
-      register(token);  // Almacenar el token
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      register(token); // Almacenar el token
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setError(error.message);
     }
@@ -30,7 +37,9 @@ const Register: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFirstNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFirstName(event.target.value);
   };
 
@@ -40,12 +49,21 @@ const Register: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 8 }}>
+      <Box
+        sx={{
+          height: "76vh",
+          overflow: "auto",
+          justifyContent: "center",
+          justifyItems: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom>
           Registrarme
         </Typography>
         <form onSubmit={handleSubmit}>
-        {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
           <TextField
             margin="normal"
             required

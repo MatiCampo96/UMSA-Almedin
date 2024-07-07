@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                {role === "ADMIN" && isAuthenticated && (
+                {role === "ADMIN" && (
                   <>
                     <MenuItem
                       component={RouterLink}
@@ -108,7 +108,7 @@ const Navbar: React.FC = () => {
                     </MenuItem>
                   </>
                 )}
-                {role === "PATIENT" && isAuthenticated && (
+                {role === "PATIENT" && (
                   <>
                     <MenuItem
                       component={RouterLink}
@@ -126,7 +126,7 @@ const Navbar: React.FC = () => {
                     </MenuItem>
                   </>
                 )}
-                {role === "AUTHORIZED_PATIENT" && isAuthenticated && (
+                {role === "AUTHORIZED_PATIENT" && (
                   <>
                     <MenuItem
                       component={RouterLink}
@@ -141,13 +141,6 @@ const Navbar: React.FC = () => {
                       onClick={handleMenuClose}
                     >
                       Especialistas
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/recetas/descargar"
-                      onClick={handleMenuClose}
-                    >
-                      Descargar Receta
                     </MenuItem>
                   </>
                 )}
@@ -183,7 +176,7 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <Box sx={{ display: "flex" }}>
-              {role === "ADMIN" && isAuthenticated && (
+              {role === "ADMIN" && (
                 <>
                   <Button
                     color="inherit"
@@ -211,7 +204,7 @@ const Navbar: React.FC = () => {
                   </Button>
                 </>
               )}
-              {role === "PATIENT" && isAuthenticated && (
+              {role === "PATIENT" && (
                 <>
                   <Button color="inherit" component={RouterLink} to="/turnos">
                     Mis Turnos
@@ -225,7 +218,7 @@ const Navbar: React.FC = () => {
                   </Button>
                 </>
               )}
-              {role === "AUTHORIZED_PATIENT" && isAuthenticated && (
+              {role === "AUTHORIZED_PATIENT" && (
                 <>
                   <Button color="inherit" component={RouterLink} to="/turnos">
                     Mis Turnos
@@ -236,13 +229,6 @@ const Navbar: React.FC = () => {
                     to="/especialistas"
                   >
                     Especialistas
-                  </Button>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/recetas/descargar"
-                  >
-                    Descargar Receta
                   </Button>
                 </>
               )}
