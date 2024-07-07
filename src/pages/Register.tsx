@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
-import { useAuth } from '../context/AuthContext';
-import { register as registerApi } from '../api/api';
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert,
+} from "@mui/material";
+import { useAuth } from "../context/AuthContext";
+import { register as registerApi } from "../api/api";
 
 const Register: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { register } = useAuth();
 
@@ -15,10 +22,13 @@ const Register: React.FC = () => {
     event.preventDefault();
     try {
       const token = await registerApi(email, password, firstName, lastName);
-      register(token);  // Almacenar el token
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setError(error.message);
+      register(token); // Store the token
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
     }
   };
 
@@ -30,7 +40,9 @@ const Register: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFirstNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFirstName(event.target.value);
   };
 
@@ -40,12 +52,24 @@ const Register: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 8 }}>
+      <Box
+        sx={{
+          height: "76vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom>
           Registrarme
         </Typography>
-        <form onSubmit={handleSubmit}>
-        {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -53,7 +77,7 @@ const Register: React.FC = () => {
             id="firstName"
             label="Nombre"
             name="firstName"
-            autoComplete="firstName"
+            autoComplete="given-name"
             autoFocus
             value={firstName}
             onChange={handleFirstNameChange}
@@ -65,8 +89,7 @@ const Register: React.FC = () => {
             id="lastName"
             label="Apellido"
             name="lastName"
-            autoComplete="lastName"
-            autoFocus
+            autoComplete="family-name"
             value={lastName}
             onChange={handleLastNameChange}
           />
@@ -75,10 +98,9 @@ const Register: React.FC = () => {
             required
             fullWidth
             id="email"
-            label="Correo electrónico"
+            label="Correo electrónico"
             name="email"
             autoComplete="email"
-            autoFocus
             value={email}
             onChange={handleEmailChange}
           />
@@ -87,7 +109,7 @@ const Register: React.FC = () => {
             required
             fullWidth
             name="password"
-            label="Contraseña"
+            label="Contraseña"
             type="password"
             id="password"
             autoComplete="current-password"

@@ -31,13 +31,13 @@ export interface Schedule {
     email: string;
     phone: string;
     Role: string;
-    appointments: Appointment[];
+    //appointments: Appointment[];
   }
 
   export interface Recipe {
     id: number;
     description: string;
-    appointment: Appointment;
+    appointment_id: number;
     issueDate: Date;
   }
 
@@ -48,4 +48,41 @@ export interface Schedule {
     doctor: Specialist;
     recipes: Recipe[];
     queryReason: string;
+  }
+
+  export interface AppointmentCreate {
+    id?: number;
+    doctor_id: number;
+    patient_id: number;
+    queryReason: string;
+    dateHour: string,
+  }
+
+  export interface AppointmentUpdate {
+    id: number;
+    doctor_id: number;
+    patient_id: number;
+    queryReason: string;
+    dateHour: string,
+  }
+  
+  export interface Specialties {
+    specialties: string[];
+  }
+  
+  export interface SlotData {
+    date: string;
+    slots: string[];
+  }
+
+  export interface AvailableSlots {
+    [date: string]: string[];
+  }
+  
+  export interface UserAppointmentUpdate {
+    patientName: string;
+    date: string;
+    time: string;
+    specialist: string;
+    reason: string;
   }
