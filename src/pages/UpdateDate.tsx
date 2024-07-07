@@ -79,7 +79,7 @@ const UpdateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        console.error("Error encontrando especialidades:", error);
+        throw new Error("Error encontrando especialidades");
       } finally {
         setLoading(false);
       }
@@ -99,7 +99,7 @@ const UpdateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      console.error("Error al cargar los especialistas:", error);
+      throw new Error("Error al cargar los especialistas");
     }
   };
 
@@ -172,17 +172,16 @@ const UpdateDate: React.FC = () => {
     };
 
     try {
-      const updatedAppointment = await userUpdateAppointment(Number(appointmentId), appointment);
-      console.log("Appointment updated:", updatedAppointment);
+      await userUpdateAppointment(Number(appointmentId), appointment);
       setSnackbarMessage("Cita actualizada satisfactoriamente");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       navigate("/turnos");
     } catch (error) {
-      console.error(error);
       setSnackbarMessage("Error al actualizar la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+      throw new Error("Error al actualizar la cita");
     }
   };
 

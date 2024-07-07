@@ -98,6 +98,15 @@ export const login = async (email: string, password: string): Promise<string> =>
   }
 };
 
+export const logout = async (): Promise<void> => {
+  try {
+    await api.get('/auth/logout');
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message || 'Error al cerrar sesión');
+    }
+  }
+}
 
 export const fetchSpecialties = async (): Promise<string[]> => {
   try {
@@ -157,8 +166,6 @@ export const fetchRecipes = async (appointmentId: number): Promise<Recipe[]> => 
         Authorization: `Bearer ${token}` // Incluye el token en el encabezado
       }
     });
-//Solo depuracion
-    console.log(response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -171,7 +178,6 @@ export const fetchRecipes = async (appointmentId: number): Promise<Recipe[]> => 
 export const deleteAppointment = async (appointmentId: number): Promise<void> => {
   try {
     await api.delete(`/turnos/${appointmentId}`);
-    console.log('Turno eliminado exitosamente');
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Error al eliminar el turno');

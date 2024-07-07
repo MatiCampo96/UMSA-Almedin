@@ -14,7 +14,7 @@ const SpecialistList: React.FC = () => {
         const data = await fetchSpecialists();
         setSpecialists(data);
       } catch (error) {
-        console.error('Error encontrando especialistas:', error);
+        throw new Error('Error al cargar los especialistas');
       } finally {
         setLoading(false);
       }

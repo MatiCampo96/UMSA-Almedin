@@ -82,7 +82,7 @@ const CreateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        console.error("Error encontrando especialidades:", error);
+        throw new Error("Error encontrando especialidades");
       } finally {
         setLoading(false);
       }
@@ -102,7 +102,7 @@ const CreateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      console.error("Error al cargar los especialistas:", error);
+      throw new Error("Error al cargar los especialistas");
     }
   };
 
@@ -176,19 +176,16 @@ const CreateDate: React.FC = () => {
     };
   
     try {
-      const createdAppointment = await createAppointment(appointment);
-      console.log("Appointment created:", createdAppointment);
-  
+      await createAppointment(appointment);
       setSnackbarMessage("Cita creada satisfactoriamente");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       navigate("/turnos");
     } catch (error) {
-      console.error(error);
-  
       setSnackbarMessage("Error al crear la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+      throw new Error("Error al crear la cita");
     }
   };  
 

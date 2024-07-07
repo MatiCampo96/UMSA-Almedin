@@ -29,7 +29,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
         setAvailableDates(dates);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching slots:', error);
         setLoading(false);
       }
     };
@@ -40,11 +39,9 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
   useEffect(() => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, 'yyyy-MM-dd');
-      console.log('Selected date:', formattedDate);
       const selectedSlot = availableSlots.find(slot => slot.date === formattedDate);
       if (selectedSlot) {
         setSelectedDaySlots(selectedSlot.slots);
-        console.log('Available slots for selected date:', selectedSlot.slots);
         setNoSlotsMessage('');
       } else {
         setSelectedDaySlots([]);

@@ -17,7 +17,7 @@ const PatientSelector: React.FC<PatientSelectorProps> = ({ onSelectPatient }) =>
         const data = await fetchPatients();
         setPatients(data);
       } catch (error) {
-        console.error(error);
+        throw new Error('Error al cargar los pacientes');
       }
     };
 

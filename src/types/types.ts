@@ -79,3 +79,10 @@ export interface Schedule {
     [date: string]: string[];
   }
   
+  export interface UserAppointmentUpdate {
+    patientName: string;
+    date: string;
+    time: string;
+    specialist: string;
+    reason: string;
+  }
