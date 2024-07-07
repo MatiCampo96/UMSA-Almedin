@@ -22,7 +22,7 @@ Este proyecto es una aplicación web desarrollada como parte del trabajo integra
 
 1. En el siguiente enlace vera un readme con las instrucciones para descargar y desplegar la API REST: https://github.com/NicolasIppoliti/trabajo-integrador-grupo-10
 
-2. Dicho proyecto tiene un archivo llamado import.sql donde se encuentran credenciales de pacientes de prueba para ir probando el funcionamiento del sitio.
+2. Dicho proyecto tiene un archivo llamado import.sql donde se encuentran credenciales de pacientes de prueba para ir probando el funcionamiento del sitio. Recomendamos usar la sesión de la usuaria Lucrecia ya que tiene el rol Authorized y en ella se prueban más métodos y tiene más registros.
 
 3. Sigue las instrucciones del repositorio del backend para desplegar la API.
 
