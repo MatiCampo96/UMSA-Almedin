@@ -1,30 +1,62 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Trabajo Integrador Grupo 10
 
-Currently, two official plugins are available:
+## Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este proyecto es una aplicación web desarrollada como parte del trabajo integrador del Grupo 10. La aplicación permite gestionar citas médicas, incluyendo la creación, actualización, cancelación y visualización de citas. También permite la descarga de recetas médicas en formato PDF.
 
-## Expanding the ESLint configuration
+## Tecnologías Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Backend
 
-- Configure the top-level `parserOptions` property like this:
+- Lenguaje: Java
+- Framework: Quarkus
+- Repositorio del backend: [repositorio/tp-grupo-10](repositorio/tp-grupo-10)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Frontend
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Framework: React
+- Librerías adicionales: Axios, Material-UI
+
+## Despliegue del Backend
+
+1. En el siguiente enlace vera un readme con las instrucciones para descargar y desplegar la API REST: https://github.com/NicolasIppoliti/trabajo-integrador-grupo-10
+
+2. Dicho proyecto tiene un archivo llamado import.sql donde se encuentran credenciales de pacientes de prueba para ir probando el funcionamiento del sitio.
+
+3. Sigue las instrucciones del repositorio del backend para desplegar la API.
+
+## Despliegue del Frontend
+
+1. Asegúrate de tener Node.js instalado. Se recomienda utilizar la versión 20.x o superior.
+    ```sh
+    node -v
+    ```
+
+2. Clona el repositorio del frontend:
+    ```sh
+    git clone <url-de-este-repositorio>
+    ```
+
+3. Navega al directorio del proyecto frontend:
+    ```sh
+    cd <nombre-del-directorio-frontend>
+    ```
+
+4. Instala las dependencias necesarias:
+    ```sh
+    npm install
+    ```
+
+5. Inicia la aplicación:
+    ```sh
+    npm run dev
+    ```
+
+La aplicación debería estar corriendo en `http://localhost:5173`.
+
+## Uso de la Aplicación
+
+Una vez que el backend y el frontend estén desplegados, puedes acceder a la aplicación en tu navegador web y comenzar a gestionar citas médicas.
+
+Espero que le sea de utilidad la primera versión de nuestro modelo de obra social. Cualquier feedback o contribución será bien recibida.
