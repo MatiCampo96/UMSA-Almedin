@@ -11,7 +11,7 @@ Este proyecto es una aplicación web desarrollada como parte del trabajo integra
 
 - Lenguaje: Java
 - Framework: Quarkus
-- Repositorio del backend: [repositorio/tp-grupo-10](repositorio/tp-grupo-10)
+- Repositorio del backend : https://github.com/NicolasIppoliti/trabajo-integrador-grupo-10
 
 ### Frontend
 
