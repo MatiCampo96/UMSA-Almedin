@@ -40,6 +40,41 @@ const Navbar: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const renderMenuItems = () => {
+    const commonItems = [
+      <MenuItem component={RouterLink} to="/turnos" onClick={handleMenuClose} key="turnos">
+        Turnos
+      </MenuItem>,
+      <MenuItem component={RouterLink} to="/especialistas" onClick={handleMenuClose} key="especialistas">
+        Especialistas
+      </MenuItem>,
+      <MenuItem component={RouterLink} to="/turnos/crear" onClick={handleMenuClose} key="crear-turno">
+        Crear Turno
+      </MenuItem>,
+    ];
+
+    if (role === "ADMIN") {
+      return [
+        <MenuItem component={RouterLink} to="/dashboard" onClick={handleMenuClose} key="dashboard">
+          Dashboard
+        </MenuItem>,
+        ...commonItems,
+      ];
+    } else if (role === "PATIENT" || role === "AUTHORIZED_PATIENT") {
+      return commonItems;
+    } else if (!isAuthenticated) {
+      return [
+        <MenuItem component={RouterLink} to="/register" onClick={handleMenuClose} key="register">
+          Registrarme
+        </MenuItem>,
+        <MenuItem component={RouterLink} to="/" onClick={handleMenuClose} key="login">
+          Iniciar Sesión
+        </MenuItem>,
+      ];
+    }
+    return null;
+  };
+
   return (
     <AppBar position="static" className="mb-10">
       <Container maxWidth="lg">
@@ -76,98 +111,14 @@ const Navbar: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                {role === "ADMIN" && (
-                  <>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/dashboard"
-                      onClick={handleMenuClose}
-                    >
-                      Dashboard
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/turnos"
-                      onClick={handleMenuClose}
-                    >
-                      Turnos
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/especialistas"
-                      onClick={handleMenuClose}
-                    >
-                      Especialistas
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/turnos/crear"
-                      onClick={handleMenuClose}
-                    >
-                      Crear Turno
-                    </MenuItem>
-                  </>
-                )}
-                {role === "PATIENT" && (
-                  <>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/turnos"
-                      onClick={handleMenuClose}
-                    >
-                      Mis Turnos
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/especialistas"
-                      onClick={handleMenuClose}
-                    >
-                      Especialistas
-                    </MenuItem>
-                  </>
-                )}
-                {role === "AUTHORIZED_PATIENT" && (
-                  <>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/turnos"
-                      onClick={handleMenuClose}
-                    >
-                      Mis Turnos
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/especialistas"
-                      onClick={handleMenuClose}
-                    >
-                      Especialistas
-                    </MenuItem>
-                  </>
-                )}
-                {!isAuthenticated && (
-                  <>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/register"
-                      onClick={handleMenuClose}
-                    >
-                      Registrarme
-                    </MenuItem>
-                    <MenuItem
-                      component={RouterLink}
-                      to="/"
-                      onClick={handleMenuClose}
-                    >
-                      Iniciar Sesión
-                    </MenuItem>
-                  </>
-                )}
+                {renderMenuItems()}
                 {isAuthenticated && (
                   <MenuItem
                     onClick={() => {
                       handleMenuClose();
                       logout();
                     }}
+                    key="logout"
                   >
                     Cerrar Sesión
                   </MenuItem>
@@ -178,57 +129,30 @@ const Navbar: React.FC = () => {
             <Box sx={{ display: "flex" }}>
               {role === "ADMIN" && (
                 <>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/dashboard"
-                  >
+                  <Button color="inherit" component={RouterLink} to="/dashboard">
                     Dashboard
                   </Button>
                   <Button color="inherit" component={RouterLink} to="/turnos">
                     Turnos
                   </Button>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/especialistas"
-                  >
+                  <Button color="inherit" component={RouterLink} to="/especialistas">
                     Especialistas
                   </Button>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/turnos/crear"
-                  >
+                  <Button color="inherit" component={RouterLink} to="/turnos/crear">
                     Crear Turno
                   </Button>
                 </>
               )}
-              {role === "PATIENT" && (
+              {(role === "PATIENT" || role === "AUTHORIZED_PATIENT") && (
                 <>
                   <Button color="inherit" component={RouterLink} to="/turnos">
                     Mis Turnos
                   </Button>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/especialistas"
-                  >
+                  <Button color="inherit" component={RouterLink} to="/especialistas">
                     Especialistas
                   </Button>
-                </>
-              )}
-              {role === "AUTHORIZED_PATIENT" && (
-                <>
-                  <Button color="inherit" component={RouterLink} to="/turnos">
-                    Mis Turnos
-                  </Button>
-                  <Button
-                    color="inherit"
-                    component={RouterLink}
-                    to="/especialistas"
-                  >
-                    Especialistas
+                  <Button color="inherit" component={RouterLink} to="/turnos/crear">
+                    Crear Turno
                   </Button>
                 </>
               )}

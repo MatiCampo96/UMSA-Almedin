@@ -79,7 +79,7 @@ const UpdateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        throw new Error("Error encontrando especialidades");
+        console.error("Error fetching specialties:", error);
       } finally {
         setLoading(false);
       }
@@ -99,7 +99,7 @@ const UpdateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      throw new Error("Error al cargar los especialistas");
+      console.error("Error loading specialists:", error);
     }
   };
 
@@ -110,7 +110,7 @@ const UpdateDate: React.FC = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleSelectSpecialist = async (specialistId: number) => {
+  const handleSelectSpecialist = (specialistId: number) => {
     setSelectedSpecialistId(specialistId);
     proceedToNextStepIfReady(specialistId);
   };
@@ -149,7 +149,7 @@ const UpdateDate: React.FC = () => {
     const encodedPayload = tokenParts[1];
     const decodedPayload = atob(encodedPayload);
     const payload = JSON.parse(decodedPayload);
-    const patientId = payload.id; // Ajusta según el nombre del claim en tu token
+    const patientId = payload.id; // Adjust according to the claim name in your token
 
     if (
       !selectedSpecialistId ||
@@ -181,7 +181,7 @@ const UpdateDate: React.FC = () => {
       setSnackbarMessage("Error al actualizar la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
-      throw new Error("Error al actualizar la cita");
+      console.error("Error updating appointment:", error);
     }
   };
 
@@ -191,14 +191,16 @@ const UpdateDate: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Cargando Especialidades...
         </Typography>
-        <CircularProgress />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ height: "70vh", overflow: "auto" }}>
+      <Box sx={{ height: "70vh", overflow: "auto", p: 3, bgcolor: "background.paper", borderRadius: 2, boxShadow: 3 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Actualizar Turno Médico
         </Typography>
@@ -280,7 +282,7 @@ const UpdateDate: React.FC = () => {
           )}
         </Box>
         <Typography>{stepDescription[activeStep]}</Typography>
-        <Box mt={2}>
+        <Box mt={2} display="flex" justifyContent="space-between">
           <Button disabled={activeStep === 0} onClick={handleBack}>
             Atrás
           </Button>

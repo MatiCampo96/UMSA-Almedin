@@ -56,9 +56,9 @@ const CreateDate: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
-  const [selectedPatientId, setSelectedPatientId] = useState<
-    number | undefined
-  >(undefined);
+  const [selectedPatientId, setSelectedPatientId] = useState<number | undefined>(
+    undefined
+  );
   const [queryReason, setQueryReason] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -82,7 +82,9 @@ const CreateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        throw new Error("Error encontrando especialidades");
+        setSnackbarMessage("Error encontrando especialidades");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       } finally {
         setLoading(false);
       }
@@ -102,7 +104,9 @@ const CreateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      throw new Error("Error al cargar los especialistas");
+      setSnackbarMessage("Error al cargar los especialistas");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -161,7 +165,9 @@ const CreateDate: React.FC = () => {
       !selectedDateHour ||
       !queryReason
     ) {
-      alert("Por favor, completa todos los campos.");
+      setSnackbarMessage("Por favor, completa todos los campos.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
 
@@ -185,7 +191,6 @@ const CreateDate: React.FC = () => {
       setSnackbarMessage("Error al crear la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
-      throw new Error("Error al crear la cita");
     }
   };
 
@@ -195,7 +200,9 @@ const CreateDate: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Cargando Especialidades...
         </Typography>
-        <CircularProgress />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
       </Container>
     );
   }
@@ -206,10 +213,13 @@ const CreateDate: React.FC = () => {
         sx={{
           height: "76vh",
           overflow: "auto",
-          justifyContent: "center",
-          justifyItems: "center",
+          p: 3, // Add padding
+          bgcolor: "background.paper", // Add background color
+          borderRadius: 2, // Add border radius for rounded corners
+          boxShadow: 3, // Add box shadow for depth
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom>
@@ -222,7 +232,7 @@ const CreateDate: React.FC = () => {
             </Step>
           ))}
         </Stepper>
-        <Box mt={4}>
+        <Box mt={4} sx={{ width: "100%" }}>
           {activeStep === 0 && (
             <Grid container spacing={2}>
               <SpecialityCard
@@ -307,7 +317,7 @@ const CreateDate: React.FC = () => {
           )}
         </Box>
         <Typography>{stepDescription[activeStep]}</Typography>
-        <Box mt={2}>
+        <Box mt={2} display="flex" justifyContent="space-between" width="100%">
           <Button disabled={activeStep === 0} onClick={handleBack}>
             Atrás
           </Button>

@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 
 interface AppointmentFormProps {
-  onSubmit: (data: {
-    patientName: string;
-    date: string;
-    time: string;
-    specialist: string;
-    reason: string;
-  }) => void;
-  initialData?: {
-    patientName: string;
-    date: string;
-    time: string;
-    specialist: string;
-    reason: string;
-  };
+  onSubmit: (data: AppointmentFormData) => void;
+  initialData?: AppointmentFormData;
+}
+
+interface AppointmentFormData {
+  patientName: string;
+  date: string;
+  time: string;
+  specialist: string;
+  reason: string;
 }
 
 const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSubmit, initialData }) => {

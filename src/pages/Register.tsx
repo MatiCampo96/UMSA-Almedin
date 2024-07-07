@@ -22,10 +22,13 @@ const Register: React.FC = () => {
     event.preventDefault();
     try {
       const token = await registerApi(email, password, firstName, lastName);
-      register(token); // Almacenar el token
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setError(error.message);
+      register(token); // Store the token
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
     }
   };
 
@@ -52,18 +55,21 @@ const Register: React.FC = () => {
       <Box
         sx={{
           height: "76vh",
-          overflow: "auto",
-          justifyContent: "center",
-          justifyItems: "center",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom>
           Registrarme
         </Typography>
-        <form onSubmit={handleSubmit}>
-          {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -71,7 +77,7 @@ const Register: React.FC = () => {
             id="firstName"
             label="Nombre"
             name="firstName"
-            autoComplete="firstName"
+            autoComplete="given-name"
             autoFocus
             value={firstName}
             onChange={handleFirstNameChange}
@@ -83,8 +89,7 @@ const Register: React.FC = () => {
             id="lastName"
             label="Apellido"
             name="lastName"
-            autoComplete="lastName"
-            autoFocus
+            autoComplete="family-name"
             value={lastName}
             onChange={handleLastNameChange}
           />
@@ -93,10 +98,9 @@ const Register: React.FC = () => {
             required
             fullWidth
             id="email"
-            label="Correo electrónico"
+            label="Correo electrónico"
             name="email"
             autoComplete="email"
-            autoFocus
             value={email}
             onChange={handleEmailChange}
           />
@@ -105,7 +109,7 @@ const Register: React.FC = () => {
             required
             fullWidth
             name="password"
-            label="Contraseña"
+            label="Contraseña"
             type="password"
             id="password"
             autoComplete="current-password"

@@ -7,16 +7,16 @@ interface QueryReasonInputProps {
 }
 
 const QueryReasonInput: React.FC<QueryReasonInputProps> = ({ queryReason, setQueryReason }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQueryReasonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQueryReason(event.target.value);
   };
 
   return (
-    <Box mt={2}>
+    <Box sx={{ mt: 2 }}>
       <TextField
         label="Motivo de la Consulta"
         value={queryReason}
-        onChange={handleChange}
+        onChange={handleQueryReasonChange}
         multiline
         rows={4}
         variant="outlined"

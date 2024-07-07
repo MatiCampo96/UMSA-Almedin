@@ -5,11 +5,11 @@ import {
   Grid,
   CircularProgress,
   Box,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import AppointmentCard from "../components/AppointmentCard";
-import { fetchAppointmentsByPatientId } from "../api/api";
-import { deleteAppointment } from "../api/api";
-import { fetchRecipes } from "../api/api";
+import { fetchAppointmentsByPatientId, deleteAppointment, fetchRecipes } from "../api/api";
 import { Appointment } from "../types/types";
 import { generatePDF } from "../services/DownloadRecipes";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 const AppointmentList: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,11 +32,12 @@ const AppointmentList: React.FC = () => {
         const encodedPayload = tokenParts[1];
         const decodedPayload = atob(encodedPayload);
         const payload = JSON.parse(decodedPayload);
-        const patientId = payload.id; // Ajusta según el nombre del claim en tu token
-        const data = await fetchAppointmentsByPatientId(patientId); // Pasa el ID como parámetro
+        const patientId = payload.id;
+        const data = await fetchAppointmentsByPatientId(patientId);
         setAppointments(data);
       } catch (error) {
-        throw new Error("Error encontrando citas");
+        setError("Error encontrando citas");
+        console.error("Error fetching appointments:", error);
       } finally {
         setLoading(false);
       }
@@ -50,9 +52,10 @@ const AppointmentList: React.FC = () => {
       setAppointments(
         appointments.filter((appointment) => appointment.id !== appointmentId)
       );
-      alert("Cita cancelada con exito");
+      alert("Cita cancelada con éxito");
     } catch (error) {
-      throw new Error("Error cancelando la cita");
+      setError("Error cancelando la cita");
+      console.error("Error canceling appointment:", error);
     }
   };
 
@@ -61,7 +64,8 @@ const AppointmentList: React.FC = () => {
       const recipes = await fetchRecipes(appointmentId);
       generatePDF(recipes);
     } catch (error) {
-      throw new Error("Error al descargar las recetas");
+      setError("Error al descargar las recetas");
+      console.error("Error downloading recipes:", error);
     }
   };
 
@@ -82,7 +86,12 @@ const AppointmentList: React.FC = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Lista de Citas Médicas
       </Typography>
-      <Box sx={{ height: '70vh', overflow: 'auto' }}>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+      <Box sx={{ height: '70vh', overflow: 'auto', mt: 2, p: 2, bgcolor: 'background.paper', borderRadius: 2 }}>
         <Grid container spacing={4}>
           {appointments.map((appointment) => (
             <Grid item key={appointment.id} xs={12} sm={6} md={4}>
@@ -96,6 +105,15 @@ const AppointmentList: React.FC = () => {
           ))}
         </Grid>
       </Box>
+      <Snackbar
+        open={Boolean(error)}
+        autoHideDuration={6000}
+        onClose={() => setError(null)}
+      >
+        <Alert onClose={() => setError(null)} severity="error" sx={{ width: "100%" }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

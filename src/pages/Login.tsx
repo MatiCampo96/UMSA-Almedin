@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 
 const Login: React.FC = () => {
-  //TODO: Logica de iniciar sesion
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -30,27 +28,42 @@ const Login: React.FC = () => {
     event.preventDefault();
     try {
       const token = await loginApi(email, password);
-      login(token); // Almacenar el token
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setError(error.message);
+      login(token); // Store the token
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ height: "76vh", overflow: "auto", justifyContent: "center", justifyItems: "center", display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          height: "76vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom>
-          Iniciar Sesion
+          Iniciar Sesión
         </Typography>
-        <form onSubmit={handleSubmit}>
-          {error && <Alert severity="error">{error}</Alert>}
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Correo electronico"
+            label="Correo electrónico"
             name="email"
             autoComplete="email"
             autoFocus
@@ -76,7 +89,7 @@ const Login: React.FC = () => {
             color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
-            Iniciar sesion
+            Iniciar sesión
           </Button>
         </form>
       </Box>
