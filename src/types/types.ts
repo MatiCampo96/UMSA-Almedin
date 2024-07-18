@@ -66,6 +66,13 @@ export interface Schedule {
     dateHour: string,
   }
   
+  export interface UserAppointmentUpdate {
+    doctor_id: number;
+    patient_id: number;
+    queryReason: string;
+    dateHour: string,
+  }
+
   export interface Specialties {
     specialties: string[];
   }
