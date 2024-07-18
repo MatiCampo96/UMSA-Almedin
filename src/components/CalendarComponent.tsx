@@ -15,7 +15,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableSlots, setAvailableSlots] = useState<SlotData[]>([]);
   const [loading, setLoading] = useState(false);
-  const [noSlotsMessage, setNoSlotsMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [availableDates, setAvailableDates] = useState<string[]>([]);
   const [selectedDaySlots, setSelectedDaySlots] = useState<string[]>([]);
 
@@ -29,7 +29,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
         setAvailableDates(dates);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching slots:', error);
+        setErrorMessage('Error al cargar los horarios disponibles.');
         setLoading(false);
       }
     };
@@ -40,15 +40,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
   useEffect(() => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, 'yyyy-MM-dd');
-      console.log('Selected date:', formattedDate);
       const selectedSlot = availableSlots.find(slot => slot.date === formattedDate);
       if (selectedSlot) {
         setSelectedDaySlots(selectedSlot.slots);
-        console.log('Available slots for selected date:', selectedSlot.slots);
-        setNoSlotsMessage('');
+        setErrorMessage('');
       } else {
         setSelectedDaySlots([]);
-        setNoSlotsMessage('No hay horas disponibles para la fecha seleccionada.');
+        setErrorMessage('No hay horas disponibles para la fecha seleccionada.');
       }
       onDateSelect(formattedDate);
     } else {
@@ -60,11 +58,11 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
     setSelectedDate(newValue);
   };
 
-  const handleTimeSelect = (time: string) => {
+  const handleTimeSelection = (time: string) => {
     onTimeSelect(time);
   };
 
-  const shouldDisableDate = (date: Date) => {
+  const disableUnavailableDates = (date: Date) => {
     return !availableDates.some(availableDate => isSameDay(date, parseISO(availableDate)));
   };
 
@@ -75,7 +73,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
         value={selectedDate}
         onChange={handleDateChange}
         renderInput={(params) => <TextField {...params} />}
-        shouldDisableDate={shouldDisableDate}
+        shouldDisableDate={disableUnavailableDates}
       />
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -83,13 +81,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ doctorId, onDateS
         </Box>
       ) : (
         <>
-          {noSlotsMessage ? (
-            <Typography variant="h6" color="error" sx={{ mt: 2 }}>{noSlotsMessage}</Typography>
+          {errorMessage ? (
+            <Typography variant="h6" color="error" sx={{ mt: 2 }}>{errorMessage}</Typography>
           ) : (
             <Grid container spacing={2} sx={{ mt: 2 }}>
-              {selectedDaySlots.map((time, timeIndex) => (
-                <Grid item key={timeIndex}>
-                  <Button variant="outlined" onClick={() => handleTimeSelect(time)}>
+              {selectedDaySlots.map((time, index) => (
+                <Grid item key={index}>
+                  <Button variant="outlined" onClick={() => handleTimeSelection(time)}>
                     {time}
                   </Button>
                 </Grid>

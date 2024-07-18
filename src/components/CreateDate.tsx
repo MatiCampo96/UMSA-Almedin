@@ -31,7 +31,7 @@ import {
   getBranchesFromSpecialists,
 } from "../services/CreateDate";
 import { useNavigate } from "react-router-dom";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 const steps = [
   "Seleccionar Especialidad",
@@ -56,9 +56,9 @@ const CreateDate: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSpecialistId, setSelectedSpecialistId] = useState<number>(); // Estado para la ID del especialista seleccionado
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
-  const [selectedPatientId, setSelectedPatientId] = useState<
-    number | undefined
-  >(undefined);
+  const [selectedPatientId, setSelectedPatientId] = useState<number | undefined>(
+    undefined
+  );
   const [queryReason, setQueryReason] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -82,7 +82,9 @@ const CreateDate: React.FC = () => {
         const data = await fetchSpecialties();
         setSpecialties(data);
       } catch (error) {
-        console.error("Error encontrando especialidades:", error);
+        setSnackbarMessage("Error encontrando especialidades");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       } finally {
         setLoading(false);
       }
@@ -102,7 +104,9 @@ const CreateDate: React.FC = () => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
-      console.error("Error al cargar los especialistas:", error);
+      setSnackbarMessage("Error al cargar los especialistas");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -161,36 +165,34 @@ const CreateDate: React.FC = () => {
       !selectedDateHour ||
       !queryReason
     ) {
-      alert("Por favor, completa todos los campos.");
+      setSnackbarMessage("Por favor, completa todos los campos.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
-  
+
     // Convert selectedDateHour to UTC
     const dateHourUTC = new Date(selectedDateHour).toISOString();
-  
+
     const appointment = {
       doctor_id: selectedSpecialistId,
       patient_id: selectedPatientId,
       queryReason: queryReason,
       dateHour: dateHourUTC, // Use the UTC date
     };
-  
+
     try {
-      const createdAppointment = await createAppointment(appointment);
-      console.log("Appointment created:", createdAppointment);
-  
+      await createAppointment(appointment);
       setSnackbarMessage("Cita creada satisfactoriamente");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       navigate("/turnos");
     } catch (error) {
-      console.error(error);
-  
       setSnackbarMessage("Error al crear la cita");
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
-  };  
+  };
 
   if (loading) {
     return (
@@ -198,147 +200,164 @@ const CreateDate: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Cargando Especialidades...
         </Typography>
-        <CircularProgress />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
       </Container>
     );
   }
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Crear Turno Médico
-      </Typography>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => (
-          <Step key={index}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Box mt={4}>
-        {activeStep === 0 && (
-          <Grid container spacing={2}>
-            <SpecialityCard
-              specialities={specialities}
-              onSelectSpeciality={handleSelectSpeciality}
-            />
-          </Grid>
-        )}
-        {activeStep === 1 && (
-          <Grid container spacing={2}>
-            {filteredBranches.map((branch, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <BranchCard
-                  {...branch}
-                  onClick={() => handleSelectBranch(branch)}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        )}
-        {activeStep === 2 && (
-          <>
+      <Box
+        sx={{
+          height: "76vh",
+          overflow: "auto",
+          p: 3, // Add padding
+          bgcolor: "background.paper", // Add background color
+          borderRadius: 2, // Add border radius for rounded corners
+          boxShadow: 3, // Add box shadow for depth
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          Crear Turno Médico
+        </Typography>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Box mt={4} sx={{ width: "100%" }}>
+          {activeStep === 0 && (
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h6" align="center">
-                  Selecciona un Especialista
-                </Typography>
-                <Divider />
-              </Grid>
-              {specialists.map((specialist, index) => (
+              <SpecialityCard
+                specialities={specialities}
+                onSelectSpeciality={handleSelectSpeciality}
+              />
+            </Grid>
+          )}
+          {activeStep === 1 && (
+            <Grid container spacing={2}>
+              {filteredBranches.map((branch, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                  <SpecialistCard
-                    showDetails={false}
-                    onClick={() => handleSelectSpecialist(specialist.id)}
-                    {...specialist}
+                  <BranchCard
+                    {...branch}
+                    onClick={() => handleSelectBranch(branch)}
                   />
                 </Grid>
               ))}
-              <Grid item xs={12}>
-                <Typography variant="h6" align="center">
-                  Selecciona un Paciente
+            </Grid>
+          )}
+          {activeStep === 2 && (
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center">
+                    Selecciona un Especialista
+                  </Typography>
+                  <Divider />
+                </Grid>
+                {specialists.map((specialist, index) => (
+                  <Grid item key={index} xs={12} sm={6} md={4}>
+                    <SpecialistCard
+                      showDetails={false}
+                      onClick={() => handleSelectSpecialist(specialist.id)}
+                      {...specialist}
+                    />
+                  </Grid>
+                ))}
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="center">
+                    Selecciona un Paciente
+                  </Typography>
+                  <Divider />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <PatientSelector onSelectPatient={handleSelectPatient} />
+                </Grid>
+              </Grid>
+              {selectedPatientId && (
+                <Typography>
+                  ID del paciente seleccionado: {selectedPatientId}
                 </Typography>
-                <Divider />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <PatientSelector onSelectPatient={handleSelectPatient} />
-              </Grid>
-            </Grid>
-            {selectedPatientId && (
-              <Typography>
-                ID del paciente seleccionado: {selectedPatientId}
-              </Typography>
-            )}
-            {selectedSpecialistId && (
-              <Typography>
-                ID del especialista seleccionado: {selectedSpecialistId}
-              </Typography>
-            )}
-          </>
-        )}
-        {activeStep === 3 && (
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Seleccionar Fecha y Hora:
-              </Typography>
-              {selectedSpecialistId !== undefined && (
-                <CalendarComponent
-                  doctorId={selectedSpecialistId}
-                  onDateSelect={handleDateSelect}
-                  onTimeSelect={handleTimeSelect}
-                />
               )}
+              {selectedSpecialistId && (
+                <Typography>
+                  ID del especialista seleccionado: {selectedSpecialistId}
+                </Typography>
+              )}
+            </>
+          )}
+          {activeStep === 3 && (
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  Seleccionar Fecha y Hora:
+                </Typography>
+                {selectedSpecialistId !== undefined && (
+                  <CalendarComponent
+                    doctorId={selectedSpecialistId}
+                    onDateSelect={handleDateSelect}
+                    onTimeSelect={handleTimeSelect}
+                  />
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        )}
-        {activeStep === 4 && (
-          <QueryReasonInput
-            queryReason={queryReason}
-            setQueryReason={setQueryReason}
-          />
-        )}
-      </Box>
-      <Typography>{stepDescription[activeStep]}</Typography>
-      <Box mt={2}>
-        <Button disabled={activeStep === 0} onClick={handleBack}>
-          Atrás
-        </Button>
-        {activeStep < steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNext}
-            disabled={
-              activeStep === 2 && (!selectedSpecialistId || !selectedPatientId)
-            }
-          >
-            Siguiente
+          )}
+          {activeStep === 4 && (
+            <QueryReasonInput
+              queryReason={queryReason}
+              setQueryReason={setQueryReason}
+            />
+          )}
+        </Box>
+        <Typography>{stepDescription[activeStep]}</Typography>
+        <Box mt={2} display="flex" justifyContent="space-between" width="100%">
+          <Button disabled={activeStep === 0} onClick={handleBack}>
+            Atrás
           </Button>
-        )}
-        {activeStep === steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCreateAppointment}
-          >
-            Crear Turno
-          </Button>
-        )}
-      </Box>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-      >
-        <Alert
+          {activeStep < steps.length - 1 && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              disabled={
+                activeStep === 2 &&
+                (!selectedSpecialistId || !selectedPatientId)
+              }
+            >
+              Siguiente
+            </Button>
+          )}
+          {activeStep === steps.length - 1 && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCreateAppointment}
+            >
+              Crear Turno
+            </Button>
+          )}
+        </Box>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
           onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{ width: "100%" }}
         >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            severity={snackbarSeverity}
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </Box>
     </Container>
   );
 };

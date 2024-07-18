@@ -1,14 +1,28 @@
-import React from 'react';
-import { Card, CardContent, Typography, Grid, CardActionArea } from '@mui/material';
+import React from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  CardActionArea,
+} from "@mui/material";
 
 interface SpecialityCardProps {
   specialities: string[];
   onSelectSpeciality: (speciality: string) => void;
 }
 
-const SpecialityCard: React.FC<SpecialityCardProps> = ({ specialities, onSelectSpeciality }) => {
-  const formatSpeciality = (speciality: string): { formatted: string; value: string } => {
-    const formatted = speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+const SpecialityCard: React.FC<SpecialityCardProps> = ({
+  specialities,
+  onSelectSpeciality,
+}) => {
+  const formatSpeciality = (
+    speciality: string
+  ): { formatted: string; value: string } => {
+    const formatted = speciality
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/^\w/, (c) => c.toUpperCase());
     return { formatted, value: speciality };
   };
 

@@ -12,18 +12,18 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({ firstName, lastName, sp
   const formattedSchedules = schedules ? schedules.map(formatSchedule) : [];
   const sortedSchedules = sortSchedulesByDay(formattedSchedules);
 
-  const formatSpeciality = (speciality: string): string => {
-    return speciality.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+  const formatSpecialty = (specialty: string): string => {
+    return specialty.replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
   };
 
   return (
     <Card sx={{ maxWidth: 345, mb: 2, boxShadow: 3 }}>
-      <CardActionArea onClick={onClick}>
+      <CardActionArea onClick={onClick} role="button" aria-label={`Select ${firstName} ${lastName}`}>
         <CardContent>
           <Typography variant="h6">{`${firstName} ${lastName}`}</Typography>
           {showDetails && (
             <>
-              <Typography color="text.secondary">{formatSpeciality(speciality)}</Typography>
+              <Typography color="text.secondary">{formatSpecialty(speciality)}</Typography>
               <Typography color="text.secondary">
                 {branch ? `${branch.name} - ${branch.city}` : 'No branch info'}
               </Typography>

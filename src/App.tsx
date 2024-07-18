@@ -9,10 +9,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreateAppointment from "./pages/CreateAppointment";
 import UpdateDate from "./pages/UpdateDate";
-import UpdateAppointment from "./pages/UpdateAppointment";
 import SpecialistList from "./pages/SpecialistList";
-import CancelAppointment from "./pages/CancelAppointment";
-import DownloadPrescription from "./pages/DownloadPrescription";
 import { AuthProvider } from "./context/AuthContext";
 import AppointmentList from "./pages/AppointmentList";
 import { ThemeProvider } from "@mui/material";
@@ -33,14 +30,8 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/turnos" element={<AppointmentList />} />
             <Route path="/turnos/crear" element={<CreateAppointment />} />
-            <Route path="/turnos/actualizar" element={<UpdateAppointment />} />
             <Route path="/turnos/actualizar/:appointmentId" element={<UpdateDate />} />
             <Route path="/especialistas" element={<SpecialistList />} />
-            <Route path="/turnos/cancelar" element={<CancelAppointment />} />
-            <Route
-              path="/recetas/descargar"
-              element={<DownloadPrescription />}
-            />
           </Routes>
           <Footer />
         </AuthProvider>
