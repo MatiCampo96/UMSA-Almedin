@@ -164,15 +164,19 @@ const UpdateDate: React.FC = () => {
 
     const dateHourUTC = new Date(selectedDateHour).toISOString();
 
-    const appointment = {
-      doctor_id: selectedSpecialistId,
-      patient_id: patientId,
-      queryReason: queryReason,
-      dateHour: dateHourUTC,
-    };
 
     try {
-      await userUpdateAppointment(Number(appointmentId), appointment);
+      await userUpdateAppointment(Number(appointmentId), {
+        doctor_id: selectedSpecialistId,
+        patient_id: patientId,
+        queryReason: queryReason,
+        dateHour: dateHourUTC,
+        patientName: "",
+        date: "",
+        time: "",
+        specialist: "",
+        reason: ""
+      });
       setSnackbarMessage("Cita actualizada satisfactoriamente");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
