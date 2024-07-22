@@ -116,7 +116,13 @@ public class DoctorService {
             throw new IllegalArgumentException(
                     "El doctor ya tiene un horario cargado ese mismo dia" + schedule.getDay());
         }
-    }
+
+        // Asignar el horario al doctor
+        doctor.getSchedules().add(schedule);
+
+        // Guardar el doctor actualizado en el repositorio
+        repository.persist(doctor);
+        }
     
     @Transactional
         public List<DoctorResponseDTO> getBySpeciality(Speciality speciality) {

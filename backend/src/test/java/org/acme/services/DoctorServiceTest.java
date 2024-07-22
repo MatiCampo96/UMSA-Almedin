@@ -184,6 +184,11 @@ public class DoctorServiceTest {
 
         doctorService.assignScheduleToDoctor(1L, 1L);
 
+         // Imprime el estado de los objetos
+    System.out.println("Doctor schedules: " + doctorEntity.getSchedules());
+    System.out.println("Schedule to be assigned: " + scheduleEntity);
+
+    
         assertTrue(doctorEntity.getSchedules().contains(scheduleEntity));
 
         verify(doctorRepository, times(1)).findById(1L);
