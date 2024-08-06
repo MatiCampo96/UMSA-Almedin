@@ -1,11 +1,13 @@
 package org.acme.security;
 
+import java.io.StringReader;
 import java.util.stream.Collectors;
 
 import org.acme.domain.Patient;
 import org.acme.mappers.PatientMapper;
 import org.acme.models.entities.PatientEntity;
 import org.acme.repositories.PatientRepository;
+import org.acme.security.utils.Login;
 import org.acme.services.PatientService;
 
 import jakarta.inject.Inject;
@@ -15,11 +17,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -43,19 +43,22 @@ public class AuthResource {
 
   @SuppressWarnings("resource") // Falso positivo, por eso el SuppressWarnings
   @Transactional
-  @GET
+  @POST
   @Path("/login")
-  public Response login(@QueryParam("email") String email, @QueryParam("password") String password) {
-    System.out.println("Aqui*************" + patientRepository.findByEmail(email));
-    PatientEntity existingPatient = patientRepository.findByEmail(email);
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response login(Login login) {
 
-    if (existingPatient == null || !existingPatient.getPassword().equals(password)) {
-      throw new WebApplicationException(Response.status(404).entity("No user found or password is incorrect").build());
-    }
+      System.out.println("Aqui*************" + patientRepository.findByEmail(login.getEmail()));
+      PatientEntity existingPatient = patientRepository.findByEmail(login.getEmail());
 
-    String token = service.generatePatientToken(existingPatient);
-    return Response.ok(token).build();
+      if (existingPatient == null || !existingPatient.getPassword().equals(login.getPassword())) {
+          throw new WebApplicationException(Response.status(404).entity("No user found or password is incorrect").build());
+      }
+
+      String token = service.generatePatientToken(existingPatient);
+      return Response.ok(token).build();
   }
+
   
   @SuppressWarnings("resource") // Falso positivo, por eso el SuppressWarnings
   @POST
