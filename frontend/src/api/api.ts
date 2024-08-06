@@ -83,11 +83,11 @@ export const register = async (email: string, password: string, firstName: strin
   }
 };
 
-//Recomendado Login mediante POST en lugar de parametros en url
 export const login = async (email: string, password: string): Promise<string> => {
   try {
-    const response = await api.get('/auth/login', {
-      params: { email, password },
+    const response = await axios.post('/auth/login', {
+      email,
+      password,
     });
     return response.data;
   } catch (error) {
