@@ -41,6 +41,6 @@ jobs:
       - name: Build
         run: cd backend && ./mvnw verify -B
         env:
-          QUARKUS_DATASOURCE_JDBC_URL: jdbc:mysql://localhost:3306/testdb
+          QUARKUS_DATASOURCE_JDBC_URL: jdbc:mysql://localhost:3306/almedin
           QUARKUS_DATASOURCE_USERNAME: root
           QUARKUS_DATASOURCE_PASSWORD: 123456
