@@ -47,7 +47,7 @@ jobs:
 
       - name: Installing frontend dependencess
         run: |
-          cd ../frontend
+          cd frontend
           npm install
 
       - name: Building frontend package
