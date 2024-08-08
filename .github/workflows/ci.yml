@@ -16,7 +16,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: 123456
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: almedin
         options: >-
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
