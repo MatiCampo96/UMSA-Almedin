@@ -1,6 +1,5 @@
 package org.acme.security;
 
-import java.io.StringReader;
 import java.util.stream.Collectors;
 
 import org.acme.domain.Patient;
@@ -37,7 +36,7 @@ public class AuthResource {
 
   @Inject
   PatientService pService;
-  
+
   @Inject
   PatientMapper mapper;
 
@@ -48,18 +47,16 @@ public class AuthResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response login(Login login) {
 
-      System.out.println("Aqui*************" + patientRepository.findByEmail(login.getEmail()));
-      PatientEntity existingPatient = patientRepository.findByEmail(login.getEmail());
+    PatientEntity existingPatient = patientRepository.findByEmail(login.getEmail());
 
-      if (existingPatient == null || !existingPatient.getPassword().equals(login.getPassword())) {
-          throw new WebApplicationException(Response.status(404).entity("No user found or password is incorrect").build());
-      }
+    if (existingPatient == null || !existingPatient.getPassword().equals(login.getPassword())) {
+      throw new WebApplicationException(Response.status(404).entity("No user found or password is incorrect").build());
+    }
 
-      String token = service.generatePatientToken(existingPatient);
-      return Response.ok(token).build();
+    String token = service.generatePatientToken(existingPatient);
+    return Response.ok(token).build();
   }
 
-  
   @SuppressWarnings("resource") // Falso positivo, por eso el SuppressWarnings
   @POST
   @Path("/register")

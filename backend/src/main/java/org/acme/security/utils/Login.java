@@ -1,9 +1,9 @@
-package org.acme.security;
+package org.acme.security.utils;
 
 import lombok.Data;
 
 @Data
 public class Login {
-    String email;
-    String password;
+    private String email;
+    private String password;
 }
