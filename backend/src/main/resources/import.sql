@@ -85,7 +85,15 @@ VALUES
 (4, 2, '2024-06-19T09:30:00', 'Vacunación'),
 (1, 3, '2024-06-20T11:20:00', 'Revisión anual'),
 (2, 1, '2024-06-21T15:00:00', 'Consulta general'),
-(3, 2, '2024-06-22T08:30:00', 'Ecografía abdominal');
+(3, 2, '2024-06-22T08:30:00', 'Ecografía abdominal'),
+
+(1, 4, '2024-10-10T12:15:00', 'Consulta de seguimiento'),  -- Jueves
+(1, 5, '2024-10-08T11:20:00', 'Consulta de seguimiento'),  -- Martes
+(2, 4, '2024-10-15T14:30:00', 'Revisión de fractura'),      -- Lunes
+(2, 5, '2024-10-09T09:30:00', 'Revisión de vacunas'),       -- Miércoles
+(2, 4, '2024-10-11T15:00:00', 'Consulta de control'),       -- Viernes
+(3, 4, '2024-10-08T10:00:00', 'Consulta de control'),       -- Martes
+(3, 5, '2024-10-12T08:30:00', 'Revisión post-ecografía');   -- Sábado
 
 INSERT INTO recipes (appointment_id, issue_date, description)
 VALUES

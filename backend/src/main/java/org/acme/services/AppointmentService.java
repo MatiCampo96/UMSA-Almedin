@@ -77,8 +77,6 @@ public class AppointmentService {
         entity.setPatient(patient);
         entity.setDoctor(doctor);
         entity.setQueryReason(appointment.getQueryReason());
-        System.out.println(date);
-        System.out.println(time);
 
         if (isAValidDate(date) && isAValidHour(time)) {
             if (doctorWorksThatDay(appointment.getDoctor_id(), date)
@@ -106,9 +104,7 @@ public class AppointmentService {
             if (isAValidDate(date) && isAValidHour(time)) {
                 if (doctorWorksThatDay(appointment.getDoctor_id(), date)
                         && doctorWorksThatDayAndTime(appointment.getDoctor_id(), date, time)) {
-                    System.out.println("Parece que el doctor trabaja ese dia a esa hora");
                     if (!scheduleHaveAppointments(appointment.getDoctor_id(), appointment.getDateHour())) {
-                        System.out.println("Parece que paso la validacion.Estoy a un paso de persistirlo...");
                         var updatedEntity = existingEntity;
                         updatedEntity.setDoctor(dRepository.findById(appointment.getDoctor_id()));
                         updatedEntity.setDateHour(appointment.getDateHour());
@@ -150,8 +146,6 @@ public class AppointmentService {
     public boolean isAValidHour(LocalTime time) {
         int minutes = time.getMinute();
         int seconds = time.getSecond();
-        Log.warn("AQUI LOS MINUTOS Y SEGUNDOS!");
-        System.out.println(minutes + seconds);
 
         // Verificar que los minutos sean 0 o 30, y que los segundos sean 0
         return (minutes == 0 || minutes == 30) && seconds == 0;
@@ -182,8 +176,6 @@ public class AppointmentService {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         Set<ScheduleEntity> schedules = doctor.getSchedules();
         for (ScheduleEntity schedule : schedules) {
-            System.out.println(schedule.getDay());
-            System.out.println(dayOfWeek);
             if (schedule.getDay().toString().equals(dayOfWeek.toString())) {
                 return true;
             }

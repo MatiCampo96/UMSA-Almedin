@@ -85,12 +85,13 @@ export const register = async (email: string, password: string, firstName: strin
 
 export const login = async (email: string, password: string): Promise<string> => {
   try {
-    const response = await axios.post('/auth/login', {
+    const response = await api.post('/auth/login', {
       email,
       password,
     });
     return response.data;
   } catch (error) {
+    console.error('Detalles del error:', error);
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message || 'Error al iniciar sesión');
     }

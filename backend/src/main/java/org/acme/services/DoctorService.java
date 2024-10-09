@@ -122,14 +122,14 @@ public class DoctorService {
 
         // Guardar el doctor actualizado en el repositorio
         repository.persist(doctor);
-        }
-    
+    }
+
     @Transactional
-        public List<DoctorResponseDTO> getBySpeciality(Speciality speciality) {
+    public List<DoctorResponseDTO> getBySpeciality(Speciality speciality) {
         List<DoctorEntity> doctors = repository.findBySpeciality(speciality);
         return doctors.stream()
                 .map(responseMapper::toDomain) // Convierte cada DoctorEntity a DoctorResponseDTO
                 .collect(Collectors.toList());
     }
-        
+
 }

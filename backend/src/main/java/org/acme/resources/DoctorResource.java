@@ -73,8 +73,7 @@ public class DoctorResource {
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, DoctorRequestDTO doctor) { // LISTO OK!
-        System.out.println(
-                "llame al update hasta el service....*********************************************************************");
+
         try {
             DoctorEntity updatedDoctor = service.update(id, doctor);
             if (updatedDoctor == null) {

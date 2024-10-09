@@ -141,7 +141,7 @@ const CreateDate: React.FC = () => {
   };
 
   const handleDateSelect = (date: string) => {
-    setSelectedDate(new Date(date));
+    setSelectedDate(new Date(`${date}T00:00:00`));
   };
 
   const handleTimeSelect = (time: string) => {
@@ -171,14 +171,11 @@ const CreateDate: React.FC = () => {
       return;
     }
 
-    // Convert selectedDateHour to UTC
-    const dateHourUTC = new Date(selectedDateHour).toISOString();
-
     const appointment = {
       doctor_id: selectedSpecialistId,
       patient_id: selectedPatientId,
       queryReason: queryReason,
-      dateHour: dateHourUTC, // Use the UTC date
+      dateHour: selectedDateHour, // Use the UTC date
     };
 
     try {
